@@ -6,3 +6,6 @@ Revision history for Perinci-To-Doc
            (Perinci-Sub-To-Text, Perinci-To-Text, Perinci-Sub-To-POD,
            Perinci-To-POD) because they are closely related to one another and
            used to break each other when put as separate dists.
+
+         - Switch from Locale::Maketext to Locale::TextDomain (translation not
+           yet functioning properly though).
