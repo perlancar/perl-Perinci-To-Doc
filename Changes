@@ -1,0 +1,8 @@
+Revision history for Perinci-To-Doc
+
+0.38     2013-12-12 (SHARYANTO) (not yet released)
+
+         - First release. Merged several distributions into one
+           (Perinci-Sub-To-Text, Perinci-To-Text, Perinci-Sub-To-POD,
+           Perinci-To-POD) because they are closely related to one another and
+           used to break each other when put as separate dists.

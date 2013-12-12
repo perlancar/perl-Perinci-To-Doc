@@ -1,0 +1,141 @@
+#!/usr/bin/perl
+
+use 5.010;
+use strict;
+use warnings;
+
+use Perinci::Sub::Util qw(err);
+
+# VERSION
+
+eval { require Perinci::CmdLine };
+if ($@) {
+    die "This script requires Perinci::CmdLine, please install it first.\n";
+}
+
+our %SPEC;
+
+$SPEC{gen_doc} = {
+    v => 1.1,
+    args => {
+        url => {
+            summary => 'URL',
+            req => 1,
+            pos => 0,
+            schema => 'str*',
+        },
+        format => {
+            summary => 'Format',
+            schema => 'str',
+        },
+    },
+};
+sub gen_doc {
+    require File::Which;
+    require Perinci::Access;
+
+    state $pa = Perinci::Access->new;
+
+    my %args = @_;
+    # XXX schema
+    my $url = $args{url} or return [400, "Please specify url"];
+    $url = "pl:$url" if $url =~ m!^/!;
+    my $fname = $url; $fname =~ s!.+/!!;
+
+    my $format = $args{format} // "man";
+    $format = "text" unless
+        File::Which::which("pod2man") && File::Which::which("man");
+
+    my $res = $pa->request(info => $url);
+    return err(500, "Can't info", $res) unless $res->[0] == 200;
+    my $type = $res->[2]{type};
+
+    $res = $pa->request(meta => $url);
+    return err($res) unless $res->[0] == 200;
+    my $meta = $res->[2];
+    my $ometa = $res->[3]{orig_meta} // {};
+
+    my $doc;
+    if ($type eq 'function') {
+        # we want to document the original args_as & result_naked, not the
+        # wrapped-over-riap one
+        for (qw/args_as result_naked/) {
+            $meta->{$_} = $ometa->{$_} if defined $ometa->{$_};
+        }
+
+        if ($format eq 'man') {
+            require Perinci::Sub::To::POD;
+            $doc = Perinci::Sub::To::POD->new(meta=>$meta, name=>$fname);
+            $res = $doc->gen_doc;
+            [200, "OK", $res, {
+                "cmdline.page_result"=>1,
+                "cmdline.pager"=>"pod2man | man -l -"}];
+        } else {
+            require Perinci::Sub::To::Text;
+            $doc = Perinci::Sub::To::Text->new(meta=>$meta, name=>$fname);
+            $res = $doc->gen_doc;
+            [200, "OK", $res, {"cmdline.page_result"=>1}];
+        }
+    } elsif ($type eq 'package') {
+        $res = $pa->request(child_metas => $url);
+        return err(500, "Can't child_metas $url", $res) unless $res->[0] == 200;
+        my $cmetas = $res->[2];
+        my $ometas = $res->[3]{orig_metas} // {};
+        # we want to document the original args_as & result_naked, not the
+        # wrapped-over-riap one
+        for my $uri (keys %$cmetas) {
+            for (qw/args_as result_naked/) {
+                $cmetas->{$uri}{$_} = $ometas->{$uri}{$_}
+                    if defined $ometas->{$uri}{$_};
+            }
+        }
+        if ($format eq 'man') {
+            require Perinci::To::POD;
+            $doc = Perinci::To::POD->new(
+                name=>$url, meta=>$meta, child_metas=>$cmetas);
+            $res = $doc->gen_doc;
+            [200, "OK", $res, {
+                "cmdline.page_result"=>1,
+                "cmdline.pager"=>"pod2man | man -l -"}];
+        } else {
+            require Perinci::To::Text;
+            $doc = Perinci::To::Text->new(
+                name=>$url, meta=>$meta, child_metas=>$cmetas);
+            $res = $doc->gen_doc;
+            [200, "OK", $res, {"cmdline.page_result"=>1}];
+        }
+    } else {
+        return [412, "Unsupported entity type '$type'"];
+    }
+}
+
+$ENV{LOG} //= 0; # speed up startup, but allow overriding
+my $cmd = Perinci::CmdLine->new(
+    url => '/main/gen_doc',
+);
+delete $cmd->common_opts->{format};
+delete $cmd->common_opts->{format_options};
+$cmd->run;
+
+# ABSTRACT: Display text/POD documentation of Riap function or package
+# PODNAME: peri-doc
+
+=head1 SYNOPSIS
+
+From command-line:
+
+ % peri-doc /Some/Module/
+ % peri-doc --format=text https://example.com/api/some_func
+ % peri-doc --help
+
+
+=head1 DESCRIPTION
+
+This script will generate text/POD documentation for a Riap function or package.
+
+
+=head1 SEE ALSO
+
+Support other entity types in the future.
+
+=cut
