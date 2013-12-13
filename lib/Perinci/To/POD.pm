@@ -4,7 +4,7 @@ use 5.010001;
 use Log::Any '$log';
 use Moo;
 
-use Locale::TextDomain 'Perinci-To-POD';
+use Locale::TextDomain 'Perinci-To-Doc';
 
 extends 'Perinci::To::PackageBase';
 
