@@ -83,10 +83,12 @@ delete $cmd->common_opts->{format};
 delete $cmd->common_opts->{format_options};
 $cmd->run;
 
-# ABSTRACT: Display text/POD documentation of Riap function
+# ABSTRACT: (DEPRECATED) Display text/POD documentation of Riap function
 # PODNAME: peri-func-doc
 
 =head1 SYNOPSIS
+
+B<DEPRECATED. And will be removed in the future. Please use peri-doc instead>.
 
 From command-line:
 
