@@ -131,7 +131,7 @@ msgid ""
 "This function is idempotent (repeated invocations with same arguments has "
 "the same effect as single invocation)."
 msgstr ""
-msgstr "Fungsi ini bersifat idempoten (idempotent, pemanggilan berulang kali "
+"Fungsi ini bersifat idempoten (idempotent, pemanggilan berulang kali "
 "dengan argumen yang sama efeknya seperti pemanggilan sekali)."
 
 #: lib/Perinci/Sub/To/POD.pm:151
