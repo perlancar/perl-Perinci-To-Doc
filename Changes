@@ -1,8 +1,14 @@
 Revision history for Perinci-To-Doc
 
+0.41     2013-12-13 (SHARYANTO)
+
+         - No functional changes. Mark 'peri-func-doc' and 'peri-pkg-doc' as
+           deprecated in favor of 'peri-doc'.
+
+
 0.40     2013-12-13 (SHARYANTO)
 
-         - Use Locale::TextDomain::UTF8.
+         - No functional changes. Use Locale::TextDomain::UTF8.
 
 
 0.39     2013-12-13 (SHARYANTO)
