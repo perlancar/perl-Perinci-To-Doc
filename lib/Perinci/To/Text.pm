@@ -4,7 +4,7 @@ use 5.010001;
 use Log::Any '$log';
 use Moo;
 
-use Locale::TextDomain 'Perinci-To-Doc';
+use Locale::TextDomain::UTF8 'Perinci-To-Doc';
 
 extends 'Perinci::To::PackageBase';
 with    'SHARYANTO::Role::Doc::Section::AddTextLines';
