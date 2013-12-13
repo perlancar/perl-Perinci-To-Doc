@@ -1,5 +1,10 @@
 Revision history for Perinci-To-Doc
 
+0.40     2013-12-13 (SHARYANTO)
+
+         - Use Locale::TextDomain::UTF8.
+
+
 0.39     2013-12-13 (SHARYANTO)
 
          - No functional changes. Use a single Locale::TextDomain textdomain for
