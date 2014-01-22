@@ -106,6 +106,7 @@ sub gen_doc_section_arguments {
     my $raa = $dres->{args};
     for my $name (keys %$args) {
         my $arg = $args->{$name};
+        my $riargmeta = rimeta($arg);
         $arg->{default_lang} //= $meta->{default_lang};
         $arg->{schema} //= ['any'=>{}];
         my $s = $arg->{schema};
@@ -116,8 +117,8 @@ sub gen_doc_section_arguments {
         } elsif (defined $s->[1]{default}) {
             $ra->{human_arg_default} = dump1($s->[1]{default});
         }
-        $ra->{summary}     = $rimeta->langprop('summary');
-        $ra->{description} = $rimeta->langprop('description');
+        $ra->{summary}     = $riargmeta->langprop('summary');
+        $ra->{description} = $riargmeta->langprop('description');
         $ra->{arg}         = $arg;
 
         $raa->{$name} = $ra;
@@ -127,9 +128,9 @@ sub gen_doc_section_arguments {
 sub gen_doc_section_result {
     my ($self) = @_;
 
-    my $meta   = $self->meta;
-    my $rimeta = rimeta($meta->{result});
-    my $dres   = $self->{_doc_res};
+    my $meta      = $self->meta;
+    my $riresmeta = rimeta($meta->{result});
+    my $dres      = $self->{_doc_res};
 
     $dres->{res_schema} = $meta->{result} ? $meta->{result}{schema} : undef;
     $dres->{res_schema} //= [any => {}];
@@ -142,8 +143,8 @@ sub gen_doc_section_result {
         $dres->{human_ret} = '[status, msg, result, meta]';
     }
 
-    $dres->{res_summary}     = $rimeta->langprop("summary");
-    $dres->{res_description} = $rimeta->langprop("description");
+    $dres->{res_summary}     = $riresmeta->langprop("summary");
+    $dres->{res_description} = $riresmeta->langprop("description");
 }
 
 sub gen_doc_section_examples {
