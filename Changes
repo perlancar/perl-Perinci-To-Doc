@@ -3,7 +3,9 @@ Revision history for Perinci-To-Doc
 0.41     2013-12-13 (SHARYANTO)
 
          - No functional changes. Mark 'peri-func-doc' and 'peri-pkg-doc' as
-           deprecated in favor of 'peri-doc'.
+           deprecated in favor of 'peri-doc'. I was lazy back then and created
+           two separate commands for my convenience, but it was convenient for
+           users to have a single command.
 
 
 0.40     2013-12-13 (SHARYANTO)
