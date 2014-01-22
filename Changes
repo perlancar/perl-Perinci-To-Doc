@@ -1,5 +1,17 @@
 Revision history for Perinci-To-Doc
 
+0.42     2014-01-22 (SHARYANTO)
+
+         [BUG FIXES]
+
+         - Function argument's summary/description were using function's
+           summary/description due to wrong variable used.
+
+         [REMOVED FEATURES]
+
+         - Remove deprecated scripts 'peri-func-doc' and 'peri-pkg-doc'.
+
+
 0.41     2013-12-13 (SHARYANTO)
 
          - No functional changes. Mark 'peri-func-doc' and 'peri-pkg-doc' as
