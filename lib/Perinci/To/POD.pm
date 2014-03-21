@@ -97,7 +97,6 @@ sub gen_doc_section_functions {
 
     $self->add_doc_lines(
         "=head1 " . uc(__("Functions")),
-        "",
     );
 
     $self->SUPER::gen_doc_section_functions;
@@ -107,6 +106,7 @@ sub gen_doc_section_functions {
 
     # XXX categorize functions based on tags?
     for my $furi (sort keys %{ $dres->{functions} }) {
+        $self->add_doc_lines("");
         for (@{ $dres->{functions}{$furi} }) {
             chomp;
             $self->add_doc_lines($_);
