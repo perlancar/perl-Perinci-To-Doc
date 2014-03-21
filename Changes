@@ -1,5 +1,12 @@
 Revision history for Perinci-To-Doc
 
+0.44     2014-03-21 (SHARYANTO)
+
+         [BUG FIXES]
+
+         - Translation of result description in POD.
+
+
 0.43     2014-03-21 (SHARYANTO)
 
          - No functional changes.
