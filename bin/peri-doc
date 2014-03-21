@@ -26,7 +26,7 @@ $SPEC{gen_doc} = {
         },
         format => {
             summary => 'Format',
-            schema => 'str',
+            schema => ['str', in => [qw/pod text man/]],
         },
     },
 };
@@ -63,13 +63,17 @@ sub gen_doc {
             $meta->{$_} = $ometa->{$_} if defined $ometa->{$_};
         }
 
-        if ($format eq 'man') {
+        if ($format =~ /man|pod/) {
             require Perinci::Sub::To::POD;
             $doc = Perinci::Sub::To::POD->new(meta=>$meta, name=>$fname);
             $res = $doc->gen_doc;
-            [200, "OK", $res, {
-                "cmdline.page_result"=>1,
-                "cmdline.pager"=>"pod2man | man -l -"}];
+            if ($format eq 'pod') {
+                [200, "OK", $res];
+            } else {
+                [200, "OK", $res, {
+                    "cmdline.page_result"=>1,
+                    "cmdline.pager"=>"pod2man | man -l -"}];
+            }
         } else {
             require Perinci::Sub::To::Text;
             $doc = Perinci::Sub::To::Text->new(meta=>$meta, name=>$fname);
@@ -89,14 +93,18 @@ sub gen_doc {
                     if defined $ometas->{$uri}{$_};
             }
         }
-        if ($format eq 'man') {
+        if ($format =~ /man|pod/) {
             require Perinci::To::POD;
             $doc = Perinci::To::POD->new(
                 name=>$url, meta=>$meta, child_metas=>$cmetas);
             $res = $doc->gen_doc;
-            [200, "OK", $res, {
-                "cmdline.page_result"=>1,
-                "cmdline.pager"=>"pod2man | man -l -"}];
+            if ($format eq 'pod') {
+                [200, "OK", $res];
+            } else {
+                [200, "OK", $res, {
+                    "cmdline.page_result"=>1,
+                    "cmdline.pager"=>"pod2man | man -l -"}];
+            }
         } else {
             require Perinci::To::Text;
             $doc = Perinci::To::Text->new(
