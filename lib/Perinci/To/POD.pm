@@ -121,15 +121,14 @@ sub gen_doc_section_functions {
 
 =head1 SYNOPSIS
 
-You can use the included L<peri-pkg-doc> script, or:
+You can use the included L<peri-doc> script, or:
 
  use Perinci::To::POD;
  my $doc = Perinci::To::POD->new(
      name=>"Foo::Bar", meta => {...}, child_metas => {...});
  say $doc->gen_doc;
 
-To generate documentation for a single function, see L<Perinci::Sub::To::POD> or
-the provided command-line script L<peri-func-doc>.
+To generate documentation for a single function, see L<Perinci::Sub::To::POD>.
 
 To generate a usage-like help message for a single function, you can try
 the L<peri-func-usage> from the L<Perinci::CmdLine> distribution.

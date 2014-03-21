@@ -238,7 +238,7 @@ sub after_gen_doc {
 
 =head1 SYNOPSIS
 
-You can use the included L<peri-func-doc> script, or:
+You can use the included L<peri-doc> script, or:
 
  use Perinci::Sub::To::POD;
  my $doc = Perinci::Sub::To::POD->new(url => "/Some/Module/somefunc");

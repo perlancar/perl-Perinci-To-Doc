@@ -102,13 +102,9 @@ sub gen_doc_section_functions {
      name=>'Foo::Bar', meta => {...}, child_metas=>{...});
  say $doc->gen_doc;
 
-You can also try the L<peri-pkg-doc> script (included in the L<Perinci::To::POD>
-distribution) with the C<--format text> option:
+You can also try the L<peri-doc> script with the C<--format text> option:
 
- % peri-pkg-doc --format text /Some/Module/
-
-To generate documentation for a single function, see L<Perinci::Sub::To::Text>
-or the provided command-line script L<peri-func-doc>.
+ % peri-doc --format text /Some/Module/
 
 To generate a usage-like help message for a single function, you can try the
 L<peri-func-usage> from the L<Perinci::CmdLine> distribution.
