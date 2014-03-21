@@ -1,5 +1,12 @@
 Revision history for Perinci-To-Doc
 
+0.43     2014-03-21 (SHARYANTO)
+
+         - No functional changes.
+
+         - Remove POD references to old scripts.
+
+
 0.42     2014-01-22 (SHARYANTO)
 
          [BUG FIXES]
