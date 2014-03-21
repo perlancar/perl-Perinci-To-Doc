@@ -1,5 +1,10 @@
 Revision history for Perinci-To-Doc
 
+0.46     2014-03-21 (SHARYANTO)
+
+         - Fix bug in package POD generation.
+
+
 0.45     2014-03-21 (SHARYANTO)
 
          - bin/peri-doc: Support formats 'pod' and 'html'.
