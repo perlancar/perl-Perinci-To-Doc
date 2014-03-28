@@ -1,8 +1,15 @@
 Revision history for Perinci-To-Doc
 
+0.47     2014-03-28 (SHARYANTO)
+
+         - Fix bug in package POD generation (missing blank line after
+           function result paragraph).
+
+
 0.46     2014-03-21 (SHARYANTO)
 
-         - Fix bug in package POD generation.
+         - Fix bug in package POD generation (missing blank line between
+           function's '=head2').
 
 
 0.45     2014-03-21 (SHARYANTO)
