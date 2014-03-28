@@ -224,7 +224,7 @@ First element (status) is an integer containing HTTP status code
 (msg) is a string containing error message, or 'OK' if status is
 200. Third element (result) is optional, the actual result. Fourth
 element (meta) is called result metadata and is optional, a hash
-that contains extra information.")))
+that contains extra information.")), "")
          unless $rn;
 
     # XXX result summary
