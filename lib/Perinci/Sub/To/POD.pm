@@ -64,7 +64,7 @@ sub after_gen_doc {
             # XXX allow using language other than perl?
             require Data::Dump;
             my $argsdump = Data::Dump::dump($args);
-            $argsdump =~ s/^\{//; $argsdump =~ s/,?\s*\}\n?$//;
+            $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
             my $out = join(
                 "",
                 $dres->{name}, "(",
@@ -99,7 +99,9 @@ sub after_gen_doc {
 
             $self->add_doc_lines(
                 $out . (defined($comment) ? " # $comment" : ""),
-                ("") x !!@expl,
+                ("", "") x !!@expl,
+                @expl,
+                ("", "") x !!@expl,
             );
         }
     }
