@@ -68,9 +68,9 @@ sub after_gen_doc {
             my $out = join(
                 "",
                 $dres->{name}, "(",
-                $argsdump =~ /\n/ ? "\n",
+                $argsdump =~ /\n/ ? "\n" : "",
                 $argsdump,
-                $argsdump =~ /\n/ ? "\n",
+                $argsdump =~ /\n/ ? "\n" : "",
                 ")",
             );
         );
