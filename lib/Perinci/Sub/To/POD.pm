@@ -64,7 +64,7 @@ sub after_gen_doc {
             # XXX allow using language other than perl?
             require Data::Dump;
             my $argsdump = Data::Dump::dump($args);
-            $argsdump =~ s/^\{\s*//; $argsdump =~ s/\s*\}\n?$//;
+            $argsdump =~ s/^\{//; $argsdump =~ s/,?\s*\}\n?$//;
             my $out = join(
                 "",
                 $dres->{name}, "(",
