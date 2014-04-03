@@ -65,7 +65,15 @@ sub after_gen_doc {
             require Data::Dump;
             my $argsdump = Data::Dump::dump($args);
             $argsdump =~ s/^\{\s*//; $argsdump =~ s/\s*\}\n?$//;
-            my $out = "$dres->{name}($argsdump);";
+            my $out = join(
+                "",
+                $dres->{name}, "(",
+                $argsdump =~ /\n/ ? "\n",
+                $argsdump,
+                $argsdump =~ /\n/ ? "\n",
+                ")",
+            );
+        );
             my $resdump;
             if (exists $eg->{result}) {
                 $resdump = Data::Dump::dump($eg->{result});
