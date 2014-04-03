@@ -53,7 +53,11 @@ sub after_gen_doc {
             } elsif ($eg->{argv}) {
                 require Perinci::Sub::GetArgs::Argv;
                 my $gares = Perinci::Sub::GetArgs::Argv::get_args_from_argv(
-                    argv => $eg->{argv}, meta => $meta);
+                    argv => $eg->{argv},
+                    meta => $meta,
+                    per_arg_json => 1,
+                    per_arg_yaml => 1,
+                );
                 die "Can't convert argv to argv in example #$i ".
                     "of function $dres->{name}): $gares->[0] - $gares->[1]"
                         unless $gares->[0] == 200;
