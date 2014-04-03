@@ -71,7 +71,7 @@ sub after_gen_doc {
                 $argsdump =~ /\n/ ? "\n" : "",
                 $argsdump,
                 $argsdump =~ /\n/ ? "\n" : "",
-                ")",
+                ");",
             );
             my $resdump;
             if (exists $eg->{result}) {
