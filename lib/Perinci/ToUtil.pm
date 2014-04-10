@@ -11,14 +11,14 @@ use warnings;
 
 sub sah2human_short {
     require Data::Sah;
-    require SHARYANTO::MaybeXS;
+    require Function::Fallback::CoreOrPP;
 
     my ($s) = @_;
     if ($s->[0] eq 'any') {
         my @alts    = map {Data::Sah::normalize_schema($_)}
             @{$s->[1]{of} // []};
         my @types   = map {$_->[0]} @alts;
-        @types      = sort(SHARYANTO::MaybeXS::uniq(@types));
+        @types      = sort(Function::Fallback::CoreOrPP::uniq(@types));
         return join("|", @types) || 'any';
     } else {
         return $s->[0];
