@@ -80,6 +80,8 @@ First element (status) is an integer containing HTTP status code
 element (meta) is called result metadata and is optional, a hash
 that contains extra information."))
         unless $rn;
+    $self->add_doc_lines($dres->{res_summary} . ($dres->{res_schema} ? " ($dres->{res_schema}[0])" : "")) if $dres->{res_summary};
+
     $self->dec_doc_indent;
 
     $self->dec_doc_indent;

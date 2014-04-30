@@ -240,7 +240,7 @@ element (meta) is called result metadata and is optional, a hash
 that contains extra information.")), "")
          unless $rn;
 
-    # XXX result summary
+    $self->add_doc_lines($dres->{res_summary} . ($dres->{res_schema} ? " ($dres->{res_schema}[0])" : "")) if $dres->{res_summary};
 
     # XXX result description
 }
