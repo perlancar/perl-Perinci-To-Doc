@@ -5,6 +5,7 @@ use Data::Dump::OneLine qw(dump1);
 use Log::Any '$log';
 use Moo;
 use Perinci::Object;
+use Perinci::Sub::Normalize qw(normalize_function_metadata);
 use Perinci::ToUtil;
 
 with 'SHARYANTO::Role::Doc::Section';
@@ -32,6 +33,8 @@ sub BUILD {
 sub before_gen_doc {
     my ($self, %opts) = @_;
     $log->tracef("=> FuncBase's before_gen_doc(opts=%s)", \%opts);
+
+    $self->{meta} = normalize_function_metadata($self->{meta});
 
     # initialize hash to store [intermediate] result
     $self->{_doc_res} = {};

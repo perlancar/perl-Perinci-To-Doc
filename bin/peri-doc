@@ -36,7 +36,9 @@ sub gen_doc {
     require Perinci::Access;
 
     state $pa = Perinci::Access->new(
-        normalize_metadata => 0,
+        handler_args => {
+            normalize_metadata => 0,
+        },
     );
 
     my %args = @_;
