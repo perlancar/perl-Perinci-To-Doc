@@ -1,5 +1,13 @@
 Revision history for Perinci-To-Doc
 
+0.50     2014-04-30 (SHARYANTO)
+
+         - Adjust to Perinci::Access::Perl 0.66 (use normalize_metadata option
+           instead of orig_meta in result metadata).
+
+         - Show result summary and schema.
+
+
 0.49     2014-04-10 (SHARYANTO)
 
          - No functional changes.
