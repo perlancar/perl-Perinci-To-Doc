@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.51     2014-05-01 (SHARYANTO)
+
+         - [Bugfix] missed blank line (sigh, keeps happening, will refactor
+           later to avoid this in the future).
+
+
 0.50     2014-04-30 (SHARYANTO)
 
          - Adjust to Perinci::Access::Perl 0.66 (use normalize_metadata option
