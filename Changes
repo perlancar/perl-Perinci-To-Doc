@@ -1,5 +1,12 @@
 Revision history for Perinci-To-Doc
 
+0.52     2014-07-18 (SHARYANTO)
+
+         [ENHANCEMENTS]
+
+         - Observe 'args_as' property when showing function examples.
+
+
 0.51     2014-05-01 (SHARYANTO)
 
          - [Bugfix] missed blank line (sigh, keeps happening, will refactor
