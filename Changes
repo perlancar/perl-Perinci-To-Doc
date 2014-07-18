@@ -1,5 +1,13 @@
 Revision history for Perinci-To-Doc
 
+0.53     2014-07-18 (SHARYANTO)
+
+         - Show function result description in POD.
+
+         - [Bugfix] Fix showing function result type in POD even when result
+           summary is empty.
+
+
 0.52     2014-07-18 (SHARYANTO)
 
          [ENHANCEMENTS]
