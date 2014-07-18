@@ -25,6 +25,8 @@ sub _md2pod {
 # because we need stuffs in parent's gen_doc_section_arguments() even to print
 # the name, we'll just do everything in after_gen_doc().
 sub after_gen_doc {
+    require Data::Dump;
+
     my ($self) = @_;
 
     my $meta  = $self->meta;
@@ -42,33 +44,57 @@ sub after_gen_doc {
         if $dres->{summary};
 
     my $examples = $meta->{examples};
+    my $args_as = $meta->{args_as} // 'hash';
     if ($examples && @$examples) {
         $self->add_doc_lines(__("Examples") . ":", "");
         my $i = 0;
         for my $eg (@$examples) {
             $i++;
-            my $args;
+            my $argsdump;
             if ($eg->{args}) {
-                $args = $eg->{args};
+                if ($args_as =~ /array/) {
+                    require Perinci::Sub::ConvertArgs::Array;
+                    my $cares = Perinci::Sub::ConvertArgs::Array::convert_args_to_array(
+                        args => $eg->{args}, meta => $meta,
+                    );
+                    die "Can't convert args to argv in example #$i ".
+                        "of function $dres->{name}): $cares->[0] - $cares->[1]"
+                            unless $cares->[0] == 200;
+                    $argsdump = Data::Dump::dump($cares->[2]);
+                    unless ($args_as =~ /ref/) {
+                        $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
+                    }
+                } else {
+                    $argsdump = Data::Dump::dump($eg->{args});
+                    unless ($args_as =~ /ref/) {
+                        $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
+                    }
+                }
             } elsif ($eg->{argv}) {
-                require Perinci::Sub::GetArgs::Argv;
-                my $gares = Perinci::Sub::GetArgs::Argv::get_args_from_argv(
-                    argv => $eg->{argv},
-                    meta => $meta,
-                    per_arg_json => 1,
-                    per_arg_yaml => 1,
-                );
-                die "Can't convert argv to argv in example #$i ".
-                    "of function $dres->{name}): $gares->[0] - $gares->[1]"
-                        unless $gares->[0] == 200;
-                $args = $gares->[2];
+                if ($args_as =~ /hash/) {
+                    require Perinci::Sub::GetArgs::Argv;
+                    my $gares = Perinci::Sub::GetArgs::Argv::get_args_from_argv(
+                        argv => $eg->{argv},
+                        meta => $meta,
+                        per_arg_json => 1,
+                        per_arg_yaml => 1,
+                    );
+                    die "Can't convert argv to args in example #$i ".
+                        "of function $dres->{name}): $gares->[0] - $gares->[1]"
+                            unless $gares->[0] == 200;
+                    $argsdump = Data::Dump::dump($gares->[2]);
+                    unless ($args_as =~ /ref/) {
+                        $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
+                    }
+                } else {
+                    $argsdump = Data::Dump::dump($eg->{argv});
+                    unless ($args_as =~ /ref/) {
+                        $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
+                    }
+                }
             } else {
-                $args = {};
+                $argsdump = '';
             }
-            # XXX allow using language other than perl?
-            require Data::Dump;
-            my $argsdump = Data::Dump::dump($args);
-            $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
             my $out = join(
                 "",
                 $dres->{name}, "(",
