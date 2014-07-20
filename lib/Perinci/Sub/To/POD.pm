@@ -15,11 +15,13 @@ sub BUILD {
 }
 
 sub _md2pod {
-    require Markdown::Pod;
+    require Markdown::To::POD;
 
     my ($self, $md) = @_;
-    state $m2p = Markdown::Pod->new;
-    $m2p->markdown_to_pod(markdown => $md);
+    my $pod = Markdown::To::POD::markdown($md);
+    # make sure we add a couple of blank lines in the end
+    $pod =~ s/\s+\z//s;
+    $pod . "\n\n\n";
 }
 
 # because we need stuffs in parent's gen_doc_section_arguments() even to print
