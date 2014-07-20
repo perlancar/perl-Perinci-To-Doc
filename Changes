@@ -1,5 +1,12 @@
 Revision history for Perinci-To-Doc
 
+0.54     2014-07-20 (SHARYANTO)
+
+         - Replace Markdown::Pod with Markdown::To::POD (which has lower startup
+           overhead and does not have the annoying 'a_b and c_d' -> 'aI<b and
+           c>d' rendering bug).
+
+
 0.53     2014-07-18 (SHARYANTO)
 
          - Show function result description in POD.
