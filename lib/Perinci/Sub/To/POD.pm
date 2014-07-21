@@ -18,7 +18,7 @@ sub _md2pod {
     require Markdown::To::POD;
 
     my ($self, $md) = @_;
-    my $pod = Markdown::To::POD::markdown($md);
+    my $pod = Markdown::To::POD::markdown_to_pod($md);
     # make sure we add a couple of blank lines in the end
     $pod =~ s/\s+\z//s;
     $pod . "\n\n\n";
