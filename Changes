@@ -1,5 +1,12 @@
 Revision history for Perinci-To-Doc
 
+0.55     2014-07-20 (SHARYANTO)
+
+         - No functional changes.
+
+         - Adjust to Markdown::To::POD 0.02.
+
+
 0.54     2014-07-20 (SHARYANTO)
 
          - Replace Markdown::Pod with Markdown::To::POD (which has lower startup
