@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.56     2014-07-22 (SHARYANTO)
+
+         - Display pos arguments nicer: 'func($a, $b, ...)' instead of
+           'func(@args)'.
+
+
 0.55     2014-07-20 (SHARYANTO)
 
          - No functional changes.
