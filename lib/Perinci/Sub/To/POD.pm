@@ -269,7 +269,7 @@ that contains extra information.")), "")
          unless $rn;
 
     $self->add_doc_lines(($dres->{res_summary} // "") . ($dres->{res_schema} ? " ($dres->{res_schema}[0])" : ""), "") if $dres->{res_summary} || $dres->{res_schema};
-    $self->add_doc_lines($dres->{res_description}, "") if $dres->{res_description};
+    $self->add_doc_lines($self->_md2pod($dres->{res_description}), "") if $dres->{res_description};
 }
 
 1;
