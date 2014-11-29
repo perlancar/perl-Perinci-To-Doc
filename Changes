@@ -1,5 +1,13 @@
 Revision history for Perinci-To-Doc
 
+0.57     2014-11-29 (SHARYANTO)
+
+         - Render function and package links in POD (currently only for pm:
+           urls).
+
+         - A couple of bug fixes.
+
+
 0.56     2014-07-22 (SHARYANTO)
 
          - Display pos arguments nicer: 'func($a, $b, ...)' instead of
