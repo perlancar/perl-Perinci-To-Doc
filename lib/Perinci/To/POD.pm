@@ -116,6 +116,27 @@ sub gen_doc_section_functions {
     }
 }
 
+sub gen_doc_section_links {
+    my $self = shift;
+
+    my $meta = $self->meta;
+
+    if ($meta->{links} && @{ $meta->{links} }) {
+        $self->add_doc_lines("=head1 " . __("SEE ALSO"), "");
+        for my $link (@{ $meta->{links} }) {
+            my $url = $link->{url};
+            # currently only handles pm: urls (link to another perl module)
+            next unless $url =~ m!\Apm:(?://)?(.+)!;
+            my $mod = $1;
+            $self->add_doc_lines(
+                "L<$mod>" .
+                    ($link->{summary} ? ", $link->{summary}." : "") .
+                    ($link->{summary} ? $self->_md2pod($link->{description}) : ""),
+                "");
+        }
+    }
+}
+
 1;
 # ABSTRACT: Generate POD documentation for a package from Rinci metadata
 

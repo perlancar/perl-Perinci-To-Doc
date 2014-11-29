@@ -1,5 +1,8 @@
 package Perinci::Sub::To::POD;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use Log::Any '$log';
 use Moo;
@@ -7,8 +10,6 @@ use Moo;
 use Locale::TextDomain::UTF8 'Perinci-To-Doc';
 
 extends 'Perinci::Sub::To::FuncBase';
-
-# VERSION
 
 sub BUILD {
     my ($self, $args) = @_;
@@ -270,6 +271,20 @@ that contains extra information.")), "")
 
     $self->add_doc_lines(($dres->{res_summary} // "") . ($dres->{res_schema} ? " ($dres->{res_schema}[0])" : ""), "") if $dres->{res_summary} || $dres->{res_schema};
     $self->add_doc_lines($self->_md2pod($dres->{res_description}), "") if $dres->{res_description};
+
+    if ($meta->{links} && @{ $meta->{links} }) {
+        $self->add_doc_lines(__("See also") . ":", "", "=over", "");
+        for my $link (@{ $meta->{links} }) {
+            my $url = $link->{url};
+            # currently only handles pm: urls (link to another perl module)
+            next unless $url =~ m!\Apm:(?://)?(.+)!;
+            my $mod = $1;
+            $self->add_doc_lines("* L<$mod>", "");
+            $self->add_doc_lines($link->{summary}.".", "") if $link->{summary};
+            $self->add_doc_lines($self->_md2pod($link->{description}), "") if $link->{description};
+        }
+        $self->add_doc_lines("=back", "");
+    }
 }
 
 1;
