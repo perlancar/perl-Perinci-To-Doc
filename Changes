@@ -1,5 +1,12 @@
 Revision history for Perinci-To-Doc
 
+0.58    2014-12-11 (PERLANCAR)
+
+	- Add missing dep.
+
+	- Move roles from SHARYANTO-Role-Doc-* to Perinci-To-Doc-Role-*.
+
+
 0.57     2014-11-29 (SHARYANTO)
 
          - Render function and package links in POD (currently only for pm:
