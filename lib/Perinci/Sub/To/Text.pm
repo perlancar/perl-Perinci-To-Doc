@@ -1,5 +1,8 @@
 package Perinci::Sub::To::Text;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use Log::Any '$log';
 use Moo;
@@ -7,9 +10,7 @@ use Moo;
 use Locale::TextDomain::UTF8 'Perinci-To-Doc';
 
 extends 'Perinci::Sub::To::FuncBase';
-with    'SHARYANTO::Role::Doc::Section::AddTextLines';
-
-# VERSION
+with    'Perinci::To::Doc::Role::Section::AddTextLines';
 
 sub BUILD {
     my ($self, $args) = @_;

@@ -1,5 +1,8 @@
 package Perinci::Sub::To::FuncBase;
 
+# DATE
+# VERSION
+
 use 5.010;
 use Data::Dump::OneLine qw(dump1);
 use Log::Any '$log';
@@ -8,12 +11,10 @@ use Perinci::Object;
 use Perinci::Sub::Normalize qw(normalize_function_metadata);
 use Perinci::ToUtil;
 
-with 'SHARYANTO::Role::Doc::Section';
+with 'Perinci::To::Doc::Role::Section';
 
 has meta => (is=>'rw');
 has name => (is=>'rw');
-
-# VERSION
 
 sub BUILD {
     my ($self, $args) = @_;
@@ -43,7 +44,7 @@ sub before_gen_doc {
 # provide simple default implementation without any text wrapping. subclass such
 # as Perinci::Sub::To::Text will use another implementation, one that supports
 # text wrapping for example (provided by
-# SHARYANTO::Role::Doc::Section::AddTextLines).
+# Perinci::To::Doc::Role::Section::AddTextLines).
 sub add_doc_lines {
     my $self = shift;
     my $opts;
