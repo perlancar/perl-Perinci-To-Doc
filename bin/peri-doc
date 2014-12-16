@@ -1,12 +1,13 @@
 #!perl
 
+# DATE
+# VERSION
+
 use 5.010;
 use strict;
 use warnings;
 
 use Perinci::Sub::Util qw(err);
-
-# VERSION
 
 eval { require Perinci::CmdLine };
 if ($@) {
@@ -17,6 +18,7 @@ our %SPEC;
 
 $SPEC{gen_doc} = {
     v => 1.1,
+    summary => 'Display text/POD documentation of Riap function or package',
     args => {
         url => {
             summary => 'URL',
@@ -124,7 +126,7 @@ delete $cmd->common_opts->{format};
 delete $cmd->common_opts->{format_options};
 $cmd->run;
 
-# ABSTRACT: Display text/POD documentation of Riap function or package
+# ABSTRACT:
 # PODNAME:
 
 =head1 SYNOPSIS
