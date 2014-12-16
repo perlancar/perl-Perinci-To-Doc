@@ -125,7 +125,7 @@ delete $cmd->common_opts->{format_options};
 $cmd->run;
 
 # ABSTRACT: Display text/POD documentation of Riap function or package
-# PODNAME: peri-doc
+# PODNAME:
 
 =head1 SYNOPSIS
 
