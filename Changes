@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.59    2015-01-02 (PERLANCAR)
+
+	- Remove Perinci::ToUtil and use Data::Sah::Terse, tweak POD:
+	  function result.
+
+
 0.58    2014-12-11 (PERLANCAR)
 
 	- Add missing dep.
