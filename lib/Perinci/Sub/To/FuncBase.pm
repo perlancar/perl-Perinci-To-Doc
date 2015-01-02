@@ -4,12 +4,13 @@ package Perinci::Sub::To::FuncBase;
 # VERSION
 
 use 5.010;
-use Data::Dump::OneLine qw(dump1);
 use Log::Any '$log';
 use Moo;
+
+use Data::Dump::OneLine qw(dump1);
+use Data::Sah::Terse qw(terse_schema);
 use Perinci::Object;
 use Perinci::Sub::Normalize qw(normalize_function_metadata);
-use Perinci::ToUtil;
 
 with 'Perinci::To::Doc::Role::Section';
 
@@ -131,7 +132,7 @@ sub gen_doc_section_arguments {
         $arg->{schema} //= ['any'=>{}];
         my $s = $arg->{schema};
         my $ra = $raa->{$name} = {schema=>$s};
-        $ra->{human_arg} = Perinci::ToUtil::sah2human_short($s);
+        $ra->{human_arg} = terse_schema($s);
         if (exists $arg->{default}) {
             $ra->{human_arg_default} = dump1($arg->{default});
         } elsif (defined $s->[1]{default}) {
@@ -154,7 +155,7 @@ sub gen_doc_section_result {
 
     $dres->{res_schema} = $meta->{result} ? $meta->{result}{schema} : undef;
     $dres->{res_schema} //= [any => {}];
-    $dres->{human_res} = Perinci::ToUtil::sah2human_short($dres->{res_schema});
+    $dres->{human_res} = terse_schema($dres->{res_schema});
 
     my $rn = $meta->{result_naked};
     if ($rn) {

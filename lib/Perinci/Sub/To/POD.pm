@@ -256,7 +256,6 @@ sub after_gen_doc {
         $self->add_doc_lines("=back", "");
     }
 
-    $self->add_doc_lines(__("Return value") . ':', "");
     my $rn = $meta->{result_naked};
     $self->add_doc_lines($self->_md2pod(__(
 "Returns an enveloped result (an array).
@@ -269,8 +268,9 @@ element (meta) is called result metadata and is optional, a hash
 that contains extra information.")), "")
          unless $rn;
 
-    $self->add_doc_lines(($dres->{res_summary} // "") . ($dres->{res_schema} ? " ($dres->{res_schema}[0])" : ""), "") if $dres->{res_summary} || $dres->{res_schema};
-    $self->add_doc_lines($self->_md2pod($dres->{res_description}), "") if $dres->{res_description};
+    $self->add_doc_lines(__("Return value") . ': ' .
+                         ($dres->{res_summary} // "") . " ($dres->{human_res})");
+$self->add_doc_lines("", $self->_md2pod($dres->{res_description}), "") if $dres->{res_description};
 
     if ($meta->{links} && @{ $meta->{links} }) {
         $self->add_doc_lines(__("See also") . ":", "", "=over", "");

@@ -1,5 +1,8 @@
 package Perinci::To::POD;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use Log::Any '$log';
 use Moo;
@@ -7,8 +10,6 @@ use Moo;
 use Locale::TextDomain::UTF8 'Perinci-To-Doc';
 
 extends 'Perinci::To::PackageBase';
-
-# VERSION
 
 sub BUILD {
     my ($self, $args) = @_;
