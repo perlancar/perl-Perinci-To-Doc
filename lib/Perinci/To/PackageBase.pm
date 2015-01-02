@@ -8,7 +8,6 @@ use Data::Dump::OneLine qw(dump1);
 use Log::Any '$log';
 use Moo;
 use Perinci::Object;
-use Perinci::ToUtil;
 
 with 'Perinci::To::Doc::Role::Section';
 
