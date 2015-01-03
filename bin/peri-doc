@@ -143,15 +143,6 @@ From command-line:
 This script will generate text/POD documentation for a Riap function or package.
 
 
-=head1 TODO
-
-=over
-
-=item * Support more pod2html options
-
-=back
-
-
 =head1 SEE ALSO
 
 Support other entity types in the future.
