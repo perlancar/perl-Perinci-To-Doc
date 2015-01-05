@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.60    2015-01-05 (PERLANCAR)
+
+	- [Bugfix] Regression: forgot to add a blank line which causes next
+	  POD directive to be not interpreted during pod weaving.
+
+
 0.59    2015-01-02 (PERLANCAR)
 
 	- Remove Perinci::ToUtil and use Data::Sah::Terse, tweak POD:
