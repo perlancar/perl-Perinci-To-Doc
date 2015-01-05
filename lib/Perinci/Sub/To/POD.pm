@@ -269,8 +269,10 @@ that contains extra information.")), "")
          unless $rn;
 
     $self->add_doc_lines(__("Return value") . ': ' .
-                         ($dres->{res_summary} // "") . " ($dres->{human_res})");
-$self->add_doc_lines("", $self->_md2pod($dres->{res_description}), "") if $dres->{res_description};
+                         ($dres->{res_summary} // "") . " ($dres->{human_res})",
+                         "");
+    $self->add_doc_lines("", $self->_md2pod($dres->{res_description}), "")
+        if $dres->{res_description};
 
     if ($meta->{links} && @{ $meta->{links} }) {
         $self->add_doc_lines(__("See also") . ":", "", "=over", "");
