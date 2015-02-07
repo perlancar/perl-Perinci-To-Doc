@@ -108,6 +108,6 @@ You can also try the L<peri-doc> script with the C<--format text> option:
  % peri-doc --format text /Some/Module/
 
 To generate a usage-like help message for a single function, you can try the
-L<peri-func-usage> from the L<Perinci::CmdLine> distribution.
+L<peri-func-usage> from the L<Perinci::CmdLine::Classic> distribution.
 
 =cut

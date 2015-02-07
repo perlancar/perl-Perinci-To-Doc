@@ -154,7 +154,7 @@ You can use the included L<peri-doc> script, or:
 
 To generate documentation for a single function, see L<Perinci::Sub::To::POD>.
 
-To generate a usage-like help message for a single function, you can try
-the L<peri-func-usage> from the L<Perinci::CmdLine> distribution.
+To generate a usage-like help message for a single function, you can try the
+L<peri-func-usage> from the L<Perinci::CmdLine::Classic> distribution.
 
 =cut

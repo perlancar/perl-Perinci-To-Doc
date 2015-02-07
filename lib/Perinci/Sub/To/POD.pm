@@ -208,8 +208,10 @@ sub after_gen_doc {
             "=over 4",
             "",
         );
+        use experimental 'smartmatch';
         for my $name (sort keys %{$dres->{args}}) {
             my $ra = $dres->{args}{$name};
+            next if 'hidden' ~~ @{ $ra->{arg}{tags} // [] };
             $self->add_doc_lines(join(
                 "",
                 "=item * B<", $name, ">",

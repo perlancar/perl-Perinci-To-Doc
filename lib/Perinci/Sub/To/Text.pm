@@ -32,6 +32,7 @@ sub after_gen_doc {
     $self->add_doc_lines("", $dres->{summary})     if $dres->{summary};
     $self->add_doc_lines("", $dres->{description}) if $dres->{description};
     if (keys %{$dres->{args}}) {
+        use experimental 'smartmatch';
         $self->add_doc_lines(
             "",
             __("Arguments") .
@@ -43,6 +44,7 @@ sub after_gen_doc {
             my $prev_arg_has_ct = $arg_has_ct;
             $arg_has_ct = 0;
             my $ra = $dres->{args}{$name};
+            next if 'hidden' ~~ @{ $ra->{arg}{tags} // [] };
             $self->add_doc_lines("") if $i++ > 0 && $prev_arg_has_ct;
             $self->add_doc_lines(join(
                 "",
@@ -105,7 +107,8 @@ You can also try the L<peri-doc> script with the C<--format text> option:
  % peri-doc --format text /Some/Module/somefunc
 
 To generate a usage-like help message for a function, you can try
-L<peri-func-usage> which is included in the L<Perinci::CmdLine> distribution.
+L<peri-func-usage> which is included in the L<Perinci::CmdLine::Classic>
+distribution.
 
  % peri-func-usage http://example.com/api/somefunc
 

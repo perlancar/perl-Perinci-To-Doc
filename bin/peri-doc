@@ -9,9 +9,10 @@ use warnings;
 
 use Perinci::Sub::Util qw(err);
 
-eval { require Perinci::CmdLine };
+eval { require Perinci::CmdLine::Classic };
 if ($@) {
-    die "This script requires Perinci::CmdLine, please install it first.\n";
+    die "This script requires Perinci::CmdLine::Classic, ".
+        "please install it first.\n";
 }
 
 our %SPEC;
@@ -119,7 +120,7 @@ sub gen_doc {
 }
 
 $ENV{LOG} //= 0; # speed up startup, but allow overriding
-my $cmd = Perinci::CmdLine->new(
+my $cmd = Perinci::CmdLine::Classic->new(
     url => '/main/gen_doc',
 );
 delete $cmd->common_opts->{format};
