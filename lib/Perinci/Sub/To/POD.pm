@@ -281,7 +281,7 @@ that contains extra information.")), "")
         for my $link (@{ $meta->{links} }) {
             my $url = $link->{url};
             # currently only handles pm: urls (link to another perl module)
-            next unless $url =~ m!\Apm:(?://)?(.+)!;
+            next unless $url =~ m!\Apm:(.+)!;
             my $mod = $1;
             $self->add_doc_lines("* L<$mod>", "");
             $self->add_doc_lines($link->{summary}.".", "") if $link->{summary};
