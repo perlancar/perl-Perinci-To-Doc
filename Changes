@@ -1,5 +1,15 @@
 Revision history for Perinci-To-Doc
 
+0.61    2015-07-07 (PERLANCAR)
+
+        - Skip including function in doc if x.no_index=1.
+
+        - Update URL syntax (pm:MODULE instead of pm://MODULE).
+
+        - Adjust to Perinci::CmdLine -> Perinci::CmdLine::Classic rename,
+          respect 'hidden' tag to skip listing the argument.
+
+
 0.60    2015-01-05 (PERLANCAR)
 
 	- [Bugfix] Regression: forgot to add a blank line which causes next
