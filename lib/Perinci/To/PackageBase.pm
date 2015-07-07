@@ -95,8 +95,10 @@ sub gen_doc_section_functions {
     $dres->{functions} = {};
     for my $furi (@func_uris) {
         my $fname = $furi; $fname =~ s!.+/!!;
+        my $meta = $cmetas->{$furi};
+        next if $meta->{'x.no_index'};
         $dres->{functions}{$furi} =
-            $self->_gen_func_doc(name=>$fname, meta=>$cmetas->{$furi});
+            $self->_gen_func_doc(name=>$fname, meta=>$meta);
     }
 }
 
