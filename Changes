@@ -1,5 +1,12 @@
 Revision history for Perinci-To-Doc
 
+0.62    2015-08-18 (PERLANCAR)
+
+	- No functional changes.
+
+	- Switch from Log::Any to Log::Any::IfLOG.
+
+
 0.61    2015-07-07 (PERLANCAR)
 
         - Skip including function in doc if x.no_index=1.
