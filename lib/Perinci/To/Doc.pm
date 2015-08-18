@@ -1,5 +1,6 @@
 package Perinci::To::Doc;
 
+# DATE
 # VERSION
 
 1;

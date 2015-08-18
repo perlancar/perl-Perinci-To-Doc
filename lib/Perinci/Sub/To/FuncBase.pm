@@ -4,7 +4,7 @@ package Perinci::Sub::To::FuncBase;
 # VERSION
 
 use 5.010;
-use Log::Any '$log';
+use Log::Any::IfLOG '$log';
 use Moo;
 
 use Data::Dump::OneLine qw(dump1);

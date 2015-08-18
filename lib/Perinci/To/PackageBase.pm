@@ -5,7 +5,7 @@ package Perinci::To::PackageBase;
 
 use 5.010;
 use Data::Dump::OneLine qw(dump1);
-use Log::Any '$log';
+use Log::Any::IfLOG '$log';
 use Moo;
 use Perinci::Object;
 

@@ -4,7 +4,7 @@ package Perinci::To::Doc::Role::Section::AddTextLines;
 # VERSION
 
 use 5.010;
-use Log::Any '$log';
+use Log::Any::IfLOG '$log';
 use Moo::Role;
 
 requires 'doc_lines';

@@ -4,7 +4,7 @@ package Perinci::To::Doc::Role::Section;
 # VERSION
 
 use 5.010;
-use Log::Any '$log';
+use Log::Any::IfLOG '$log';
 use Moo::Role;
 
 has doc_sections => (is=>'rw');

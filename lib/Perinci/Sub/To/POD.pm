@@ -4,7 +4,7 @@ package Perinci::Sub::To::POD;
 # VERSION
 
 use 5.010001;
-use Log::Any '$log';
+use Log::Any::IfLOG '$log';
 use Moo;
 
 use Locale::TextDomain::UTF8 'Perinci-To-Doc';
