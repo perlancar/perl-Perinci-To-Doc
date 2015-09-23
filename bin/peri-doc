@@ -66,7 +66,7 @@ sub gen_doc {
     if ($type eq 'function') {
         if ($format =~ /pod|man|html/) {
             require Perinci::Sub::To::POD;
-            $doc = Perinci::Sub::To::POD->new(meta=>$meta, name=>$fname);
+            $doc = Perinci::Sub::To::POD->new(meta=>$meta, name=>$fname, url=>$url);
             $res = $doc->gen_doc;
             if ($format eq 'pod') {
                 [200, "OK", $res];
@@ -82,7 +82,7 @@ sub gen_doc {
             }
         } else {
             require Perinci::Sub::To::Text;
-            $doc = Perinci::Sub::To::Text->new(meta=>$meta, name=>$fname);
+            $doc = Perinci::Sub::To::Text->new(meta=>$meta, name=>$fname, url=>$url);
             $res = $doc->gen_doc;
             [200, "OK", $res, {"cmdline.page_result"=>1}];
         }

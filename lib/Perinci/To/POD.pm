@@ -87,7 +87,7 @@ sub gen_doc_section_description {
 
 sub _gen_func_doc {
     my $self = shift;
-    my $o = Perinci::Sub::To::POD->new(@_);
+    my $o = Perinci::Sub::To::POD->new(_pa => $self->{_pa}, @_);
     $o->gen_doc;
     $o->doc_lines;
 }

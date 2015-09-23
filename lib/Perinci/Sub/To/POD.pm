@@ -109,7 +109,25 @@ sub after_gen_doc {
             my $resdump;
             if (exists $eg->{result}) {
                 $resdump = Data::Dump::dump($eg->{result});
+            } else {
+              GET_RESULT_BY_CALLING_FUNCTION:
+                {
+                    # XXX since we retrieve the result by calling through Riap,
+                    # the result will be json-cleaned.
+                    my %extra;
+                    if ($eg->{argv}) {
+                        $extra{argv} = $eg->{argv};
+                    } elsif($eg->{args}) {
+                        $extra{args} = $eg->{args};
+                    } else {
+                        $log->debugf("Example does not provide args/argv, skipped trying to get result from calling function");
+                        last GET_RESULT_BY_CALLING_FUNCTION;
+                    }
+                    my $res = $self->{_pa}->request(call => $self->{url}, \%extra);
+                    $resdump = Data::Dump::dump($res);
+                }
             }
+
             my $status = $eg->{status} // 200;
             my $comment;
             my @expl;
@@ -124,7 +142,10 @@ sub after_gen_doc {
                     $comment = "ERROR $status";
                 }
             } else {
-                push @expl, "Result: C<< $resdump >>." if defined($resdump);
+                if (defined $resdump) {
+                    $resdump =~ s/^/ /gm;
+                    push @expl, "Result:\n\n$resdump";
+                }
             }
             push @expl, ($eg->{summary} . ($eg->{summary} =~ /\.$/ ? "" : "."))
                 if $eg->{summary};

@@ -13,7 +13,9 @@ with 'Perinci::To::Doc::Role::Section';
 
 has name => (is=>'rw');
 has meta => (is=>'rw');
+has url  => (is=>'rw');
 has child_metas => (is=>'rw');
+has _pa => (is=>'rw');
 
 sub BUILD {
     my ($self, $args) = @_;
@@ -27,6 +29,10 @@ sub BUILD {
         'functions',
         'links',
     ];
+    $self->{_pa} //= do {
+        require Perinci::Access;
+        Perinci::Access->new;
+    };
 }
 
 sub before_gen_doc {
@@ -98,7 +104,7 @@ sub gen_doc_section_functions {
         my $meta = $cmetas->{$furi};
         next if $meta->{'x.no_index'};
         $dres->{functions}{$furi} =
-            $self->_gen_func_doc(name=>$fname, meta=>$meta);
+            $self->_gen_func_doc(name=>$fname, meta=>$meta, url=>"$self->{url}$furi");
     }
 }
 

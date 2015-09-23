@@ -16,6 +16,8 @@ with 'Perinci::To::Doc::Role::Section';
 
 has meta => (is=>'rw');
 has name => (is=>'rw');
+has url  => (is=>'rw');
+has _pa => (is=>'rw');
 
 sub BUILD {
     my ($self, $args) = @_;
@@ -30,6 +32,10 @@ sub BUILD {
         'examples',
         'links',
     ];
+    $self->{_pa} = do {
+        require Perinci::Access;
+        Perinci::Access->new;
+    };
 }
 
 sub before_gen_doc {
