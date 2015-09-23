@@ -77,7 +77,7 @@ sub after_gen_doc {
                 if ($args_as =~ /hash/) {
                     require Perinci::Sub::GetArgs::Argv;
                     my $gares = Perinci::Sub::GetArgs::Argv::get_args_from_argv(
-                        argv => $eg->{argv},
+                        argv => [@{ $eg->{argv} }],
                         meta => $meta,
                         per_arg_json => 1,
                         per_arg_yaml => 1,
