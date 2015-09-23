@@ -1,5 +1,13 @@
 Revision history for Perinci-To-Doc
 
+0.64    2015-09-23 (PERLANCAR)
+
+	- If example specification does not specify result, get result by
+	  calling the function (through Riap).
+
+	- [Bugfix] Don't modify original example's argv.
+
+
 0.63    2015-09-04 (PERLANCAR)
 
 	- No functional changes.
