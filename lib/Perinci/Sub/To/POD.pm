@@ -48,118 +48,122 @@ sub after_gen_doc {
 
     my $examples = $meta->{examples};
     my $args_as = $meta->{args_as} // 'hash';
-    if ($examples && @$examples) {
-        $self->add_doc_lines(__("Examples") . ":", "");
-        my $i = 0;
-        for my $eg (@$examples) {
-            $i++;
-            my $argsdump;
-            if ($eg->{args}) {
-                if ($args_as =~ /array/) {
-                    require Perinci::Sub::ConvertArgs::Array;
-                    my $cares = Perinci::Sub::ConvertArgs::Array::convert_args_to_array(
-                        args => $eg->{args}, meta => $meta,
-                    );
-                    die "Can't convert args to argv in example #$i ".
-                        "of function $dres->{name}): $cares->[0] - $cares->[1]"
-                            unless $cares->[0] == 200;
-                    $argsdump = Data::Dump::dump($cares->[2]);
-                    unless ($args_as =~ /ref/) {
-                        $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
-                    }
-                } else {
-                    $argsdump = Data::Dump::dump($eg->{args});
-                    unless ($args_as =~ /ref/) {
-                        $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
-                    }
-                }
-            } elsif ($eg->{argv}) {
-                if ($args_as =~ /hash/) {
-                    require Perinci::Sub::GetArgs::Argv;
-                    my $gares = Perinci::Sub::GetArgs::Argv::get_args_from_argv(
-                        argv => [@{ $eg->{argv} }],
-                        meta => $meta,
-                        per_arg_json => 1,
-                        per_arg_yaml => 1,
-                    );
-                    die "Can't convert argv to args in example #$i ".
-                        "of function $dres->{name}): $gares->[0] - $gares->[1]"
-                            unless $gares->[0] == 200;
-                    $argsdump = Data::Dump::dump($gares->[2]);
-                    unless ($args_as =~ /ref/) {
-                        $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
-                    }
-                } else {
-                    $argsdump = Data::Dump::dump($eg->{argv});
-                    unless ($args_as =~ /ref/) {
-                        $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
-                    }
+    my $i = 0;
+    my @eg_lines;
+  EXAMPLE:
+    for my $eg (@$examples) {
+        $i++;
+        my $argsdump;
+        if ($eg->{args}) {
+            if ($args_as =~ /array/) {
+                require Perinci::Sub::ConvertArgs::Array;
+                my $cares = Perinci::Sub::ConvertArgs::Array::convert_args_to_array(
+                    args => $eg->{args}, meta => $meta,
+                );
+                die "Can't convert args to argv in example #$i ".
+                    "of function $dres->{name}): $cares->[0] - $cares->[1]"
+                    unless $cares->[0] == 200;
+                $argsdump = Data::Dump::dump($cares->[2]);
+                unless ($args_as =~ /ref/) {
+                    $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
                 }
             } else {
-                $argsdump = '';
-            }
-            my $out = join(
-                "",
-                $dres->{name}, "(",
-                $argsdump =~ /\n/ ? "\n" : "",
-                $argsdump,
-                $argsdump =~ /\n/ ? "\n" : "",
-                ");",
-            );
-            my $resdump;
-          GET_RESULT:
-            {
-                last unless $eg->{'x.doc.show_result'} // 1;
-                if (exists $eg->{result}) {
-                    $resdump = Data::Dump::dump($eg->{result});
-                    last;
+                $argsdump = Data::Dump::dump($eg->{args});
+                unless ($args_as =~ /ref/) {
+                    $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
                 }
-
-                # XXX since we retrieve the result by calling through Riap,
-                # the result will be json-cleaned.
-                my %extra;
-                if ($eg->{argv}) {
-                    $extra{argv} = $eg->{argv};
-                } elsif($eg->{args}) {
-                    $extra{args} = $eg->{args};
-                } else {
-                    $log->debugf("Example does not provide args/argv, skipped trying to get result from calling function");
-                    last GET_RESULT;
-                }
-                my $res = $self->{_pa}->request(call => $self->{url}, \%extra);
-                $resdump = Data::Dump::dump($res);
             }
-
-            my $status = $eg->{status} // 200;
-            my $comment;
-            my @expl;
-            $out =~ s/^/ /mg;
-            # all fits on a single not-too-long line
-            if ($argsdump !~ /\n/ &&
-                    (!defined($resdump) || $resdump !~ /\n/) &&
-                        length($argsdump) + length($resdump // "") < 80) {
-                if ($status == 200) {
-                    $comment = "-> $resdump" if defined $resdump;
-                } else {
-                    $comment = "ERROR $status";
+        } elsif ($eg->{argv}) {
+            if ($args_as =~ /hash/) {
+                require Perinci::Sub::GetArgs::Argv;
+                my $gares = Perinci::Sub::GetArgs::Argv::get_args_from_argv(
+                    argv => [@{ $eg->{argv} }],
+                    meta => $meta,
+                    per_arg_json => 1,
+                    per_arg_yaml => 1,
+                );
+                die "Can't convert argv to args in example #$i ".
+                    "of function $dres->{name}): $gares->[0] - $gares->[1]"
+                    unless $gares->[0] == 200;
+                $argsdump = Data::Dump::dump($gares->[2]);
+                unless ($args_as =~ /ref/) {
+                    $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
                 }
             } else {
-                if (defined $resdump) {
-                    $resdump =~ s/^/ /gm;
-                    push @expl, "Result:\n\n$resdump";
+                $argsdump = Data::Dump::dump($eg->{argv});
+                unless ($args_as =~ /ref/) {
+                    $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
                 }
             }
-            push @expl, ($eg->{summary} . ($eg->{summary} =~ /\.$/ ? "" : "."))
-                if $eg->{summary};
-            # XXX example's description
-
-            $self->add_doc_lines(
-                $out . (defined($comment) ? " # $comment" : ""),
-                ("", "") x !!@expl,
-                @expl,
-                ("", "") x !!@expl,
-            );
+        } else {
+            # no argv or args, skip, probably not perl example
+            next EXAMPLE;
         }
+        my $out = join(
+            "",
+            $dres->{name}, "(",
+            $argsdump =~ /\n/ ? "\n" : "",
+            $argsdump,
+            $argsdump =~ /\n/ ? "\n" : "",
+            ");",
+        );
+        my $resdump;
+      GET_RESULT:
+        {
+            last unless $eg->{'x.doc.show_result'} // 1;
+            if (exists $eg->{result}) {
+                $resdump = Data::Dump::dump($eg->{result});
+                last;
+            }
+
+            # XXX since we retrieve the result by calling through Riap,
+            # the result will be json-cleaned.
+            my %extra;
+            if ($eg->{argv}) {
+                $extra{argv} = $eg->{argv};
+            } elsif($eg->{args}) {
+                $extra{args} = $eg->{args};
+            } else {
+                $log->debugf("Example does not provide args/argv, skipped trying to get result from calling function");
+                last GET_RESULT;
+            }
+            my $res = $self->{_pa}->request(call => $self->{url}, \%extra);
+            $resdump = Data::Dump::dump($res);
+        }
+
+        my $status = $eg->{status} // 200;
+        my $comment;
+        my @expl;
+        $out =~ s/^/ /mg;
+        # all fits on a single not-too-long line
+        if ($argsdump !~ /\n/ &&
+                (!defined($resdump) || $resdump !~ /\n/) &&
+                length($argsdump) + length($resdump // "") < 80) {
+            if ($status == 200) {
+                $comment = "-> $resdump" if defined $resdump;
+            } else {
+                $comment = "ERROR $status";
+            }
+        } else {
+            if (defined $resdump) {
+                $resdump =~ s/^/ /gm;
+                push @expl, "Result:\n\n$resdump";
+            }
+        }
+        push @expl, ($eg->{summary} . ($eg->{summary} =~ /\.$/ ? "" : "."))
+            if $eg->{summary};
+        # XXX example's description
+
+        push @eg_lines, (
+            $out . (defined($comment) ? " # $comment" : ""),
+            ("", "") x !!@expl,
+            @expl,
+            ("", "") x !!@expl,
+        );
+    } # for each example
+    if (@eg_lines) {
+        $self->add_doc_lines(__("Examples") . ":", "");
+        $self->add_doc_lines(@eg_lines);
     }
 
     $self->add_doc_lines($self->_md2pod($dres->{description}), "")
