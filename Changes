@@ -1,5 +1,10 @@
 Revision history for Perinci-To-Doc
 
+0.65    2015-09-25 (PERLANCAR)
+
+	- Observe example spec's x.doc.show_result.
+
+
 0.64    2015-09-23 (PERLANCAR)
 
 	- If example specification does not specify result, get result by
