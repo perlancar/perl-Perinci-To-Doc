@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.67    2015-09-26 (PERLANCAR)
+
+	- Don't duplicate documentation for alias function, just say that
+	  the function is 'alias for ORIG'.
+
+
 0.66    2015-09-25 (PERLANCAR)
 
 	- Don't show non-perl examples in POD function documentation.
