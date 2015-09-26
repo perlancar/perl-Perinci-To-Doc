@@ -42,6 +42,19 @@ sub after_gen_doc {
             ($has_args ? $dres->{args_plterm} : "()").' -> '.$dres->{human_ret},
         "");
 
+    {
+        my $pdres = $self->parent->{_doc_res};
+        use DD; dd $pdres; dd $meta; dd "$meta";
+        my $fnames = $pdres->{function_names_by_meta_addr}{"$self->{_orig_meta}"};
+        if (@$fnames > 1) {
+            $self->add_doc_lines(
+                __("Alias for") . " C<$fnames->[0]>.",
+                "",
+            );
+            return;
+        }
+    }
+
     $self->add_doc_lines(
         $dres->{summary}.($dres->{summary} =~ /\.$/ ? "":"."), "")
         if $dres->{summary};

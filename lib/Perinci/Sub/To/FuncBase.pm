@@ -18,18 +18,38 @@ has meta => (is=>'rw');
 has name => (is=>'rw');
 has url  => (is=>'rw');
 has _pa => (is=>'rw');
+has parent => (is=>'rw'); # points fo Perinci::To::* object
 
 sub BUILD {
     my ($self, $args) = @_;
 
     $args->{meta} or die "Please specify meta";
 
+    my $pdres = $self->{parent}{_doc_res};
+
+    if (@{ $pdres->{function_names_by_meta_addr}{"$args->{meta}"} } > 1) {
+        # function is an alias to another function, no need to duplicate
+        # documenting the function, just mention that this function is alias to
+        # another.
+        $self->{doc_sections} //= [
+            # actually not needed but gen_doc_section_summary() et al currently
+            # sets dres->{name}, dres->{summary}, etc. this will be refactored
+            # later, gen_doc_section_summary() et al should've just add doc
+            # lines.
+            'summary',
+            'arguments',
+            'result',
+
+            'alias',
+        ];
+    }
+
     $self->{doc_sections} //= [
         'summary',
+        'synopsis',
         'description',
         'arguments',
         'result',
-        'examples',
         'links',
     ];
     $self->{_pa} = do {
@@ -42,6 +62,7 @@ sub before_gen_doc {
     my ($self, %opts) = @_;
     $log->tracef("=> FuncBase's before_gen_doc(opts=%s)", \%opts);
 
+    $self->{_orig_meta} = $self->{meta};
     $self->{meta} = normalize_function_metadata($self->{meta});
 
     # initialize hash to store [intermediate] result
@@ -66,6 +87,10 @@ sub add_doc_lines {
         map {"$indent$_"} @lines;
 }
 
+sub gen_doc_section_alias {
+    # currently in after_gen_doc()
+}
+
 sub gen_doc_section_summary {
     my ($self) = @_;
 
@@ -78,6 +103,10 @@ sub gen_doc_section_summary {
 
     $dres->{name}    = $name;
     $dres->{summary} = $summary;
+}
+
+sub gen_doc_section_synopsis {
+    # currently in after_gen_doc()
 }
 
 sub gen_doc_section_description {
@@ -172,10 +201,6 @@ sub gen_doc_section_result {
 
     $dres->{res_summary}     = $riresmeta->langprop("summary");
     $dres->{res_description} = $riresmeta->langprop("description");
-}
-
-sub gen_doc_section_examples {
-    # not yet
 }
 
 sub gen_doc_section_links {
