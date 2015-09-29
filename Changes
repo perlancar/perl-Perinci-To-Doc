@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.68    2015-09-29 (PERLANCAR)
+
+	- Show function's export behavior (exported by default, not
+	  exported by default but exportable, never exported).
+
+
 0.67    2015-09-26 (PERLANCAR)
 
 	- Don't duplicate documentation for alias function, just say that
