@@ -87,7 +87,13 @@ sub gen_doc_section_description {
 
 sub _gen_func_doc {
     my $self = shift;
-    my $o = Perinci::Sub::To::POD->new(_pa => $self->{_pa}, @_);
+    my %args = @_;
+
+    my $o = Perinci::Sub::To::POD->new(
+        _pa => $self->{_pa},
+        export => $self->{exports} ? $self->{exports}{$args{name}} : undef,
+        %args,
+    );
     $o->gen_doc;
     $o->doc_lines;
 }
@@ -103,9 +109,6 @@ sub gen_doc_section_functions {
     );
 
     $self->SUPER::gen_doc_section_functions;
-
-    # XXX if module uses Perinci::Exporter, show a basic usage for importing and
-    # show exportability information
 
     # XXX categorize functions based on tags?
     for my $furi (sort keys %{ $dres->{functions} }) {

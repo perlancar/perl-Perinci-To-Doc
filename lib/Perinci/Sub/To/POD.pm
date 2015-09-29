@@ -181,6 +181,17 @@ sub after_gen_doc {
     $self->add_doc_lines($self->_md2pod($dres->{description}), "")
         if $dres->{description};
 
+    {
+        my $export = $self->{export} // 0;
+        if ($export == 0) {
+            $self->add_doc_lines(__("This function is not exported by default, but exportable."), "");
+        } elsif ($export == 1) {
+            $self->add_doc_lines(__("This function is exported by default."), "");
+        } elsif ($export == -1) {
+            $self->add_doc_lines(__("This function is not exportable."), "");
+        }
+    }
+
     my $feat = $meta->{features} // {};
     my @ft;
     my %spargs;

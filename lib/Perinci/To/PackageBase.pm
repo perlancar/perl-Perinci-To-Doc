@@ -16,6 +16,7 @@ has meta => (is=>'rw');
 has url  => (is=>'rw');
 has child_metas => (is=>'rw');
 has _pa => (is=>'rw');
+has exports => (is=>'rw'); # hash, key=function name, val=0|1|2 (see Perinci::Sub::To::FuncBase's export)
 
 sub BUILD {
     my ($self, $args) = @_;
