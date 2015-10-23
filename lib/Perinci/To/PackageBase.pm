@@ -111,7 +111,7 @@ sub gen_doc_section_functions {
                 parent=>$self,
                 name=>$fname,
                 meta=>$meta,
-                url=>"$self->{url}$furi",
+                url=> ($self->{url}//'') . $furi,
             );
     }
 }
