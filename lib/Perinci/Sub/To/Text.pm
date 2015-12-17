@@ -24,6 +24,8 @@ sub after_gen_doc {
     my $meta  = $self->meta;
     my $dres  = $self->{_doc_res};
 
+    my $orig_result_naked = $meta->{_orig_result_naked};
+
     $self->add_doc_lines(
         "+ ".$dres->{name}.$dres->{args_plterm}.' -> '.$dres->{human_ret},
     );
@@ -72,7 +74,6 @@ sub after_gen_doc {
 
     $self->add_doc_lines("", __("Return value") . ':');
     $self->inc_doc_indent;
-    my $rn = $meta->{result_naked};
     $self->add_doc_lines(__(
 "Returns an enveloped result (an array).
 
@@ -82,7 +83,7 @@ First element (status) is an integer containing HTTP status code
 200. Third element (result) is optional, the actual result. Fourth
 element (meta) is called result metadata and is optional, a hash
 that contains extra information."))
-        unless $rn;
+        unless $orig_result_naked;
     $self->add_doc_lines($dres->{res_summary} . ($dres->{res_schema} ? " ($dres->{res_schema}[0])" : "")) if $dres->{res_summary};
 
     $self->dec_doc_indent;

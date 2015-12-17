@@ -35,6 +35,8 @@ sub after_gen_doc {
     my $meta  = $self->meta;
     my $dres  = $self->{_doc_res};
 
+    my $orig_meta = $self->{_orig_meta};
+
     my $has_args = !!keys(%{$dres->{args}});
 
     $self->add_doc_lines(
@@ -44,7 +46,7 @@ sub after_gen_doc {
 
     {
         my $pdres = $self->parent->{_doc_res};
-        my $fnames = $pdres->{function_names_by_meta_addr}{"$self->{_orig_meta}"};
+        my $fnames = $pdres->{function_names_by_meta_addr}{"$orig_meta"};
         if (@$fnames > 1) {
             $self->add_doc_lines(
                 __("Alias for") . " C<$fnames->[0]>.",
@@ -59,7 +61,8 @@ sub after_gen_doc {
         if $dres->{summary};
 
     my $examples = $meta->{examples};
-    my $args_as = $meta->{args_as} // 'hash';
+    my $orig_result_naked = $meta->{_orig_result_naked};
+    my $orig_args_as = $meta->{_orig_args_as} // 'hash';
     my $i = 0;
     my @eg_lines;
   EXAMPLE:
@@ -67,7 +70,7 @@ sub after_gen_doc {
         $i++;
         my $argsdump;
         if ($eg->{args}) {
-            if ($args_as =~ /array/) {
+            if ($orig_args_as =~ /array/) {
                 require Perinci::Sub::ConvertArgs::Array;
                 my $cares = Perinci::Sub::ConvertArgs::Array::convert_args_to_array(
                     args => $eg->{args}, meta => $meta,
@@ -76,17 +79,17 @@ sub after_gen_doc {
                     "of function $dres->{name}): $cares->[0] - $cares->[1]"
                     unless $cares->[0] == 200;
                 $argsdump = Data::Dump::dump($cares->[2]);
-                unless ($args_as =~ /ref/) {
+                unless ($orig_args_as =~ /ref/) {
                     $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
                 }
             } else {
                 $argsdump = Data::Dump::dump($eg->{args});
-                unless ($args_as =~ /ref/) {
+                unless ($orig_args_as =~ /ref/) {
                     $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
                 }
             }
         } elsif ($eg->{argv}) {
-            if ($args_as =~ /hash/) {
+            if ($orig_args_as =~ /hash/) {
                 require Perinci::Sub::GetArgs::Argv;
                 my $gares = Perinci::Sub::GetArgs::Argv::get_args_from_argv(
                     argv => [@{ $eg->{argv} }],
@@ -98,12 +101,12 @@ sub after_gen_doc {
                     "of function $dres->{name}): $gares->[0] - $gares->[1]"
                     unless $gares->[0] == 200;
                 $argsdump = Data::Dump::dump($gares->[2]);
-                unless ($args_as =~ /ref/) {
+                unless ($orig_args_as =~ /ref/) {
                     $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
                 }
             } else {
                 $argsdump = Data::Dump::dump($eg->{argv});
-                unless ($args_as =~ /ref/) {
+                unless ($orig_args_as =~ /ref/) {
                     $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
                 }
             }
@@ -140,7 +143,7 @@ sub after_gen_doc {
                 last GET_RESULT;
             }
             my $res = $self->{_pa}->request(call => $self->{url}, \%extra);
-            $resdump = Data::Dump::dump($res);
+            $resdump = Data::Dump::dump($orig_result_naked ? $res->[2] : $res);
         }
 
         my $status = $eg->{status} // 200;
@@ -308,7 +311,6 @@ sub after_gen_doc {
         $self->add_doc_lines("=back", "");
     }
 
-    my $rn = $meta->{result_naked};
     $self->add_doc_lines($self->_md2pod(__(
 "Returns an enveloped result (an array).
 
@@ -318,7 +320,7 @@ First element (status) is an integer containing HTTP status code
 200. Third element (result) is optional, the actual result. Fourth
 element (meta) is called result metadata and is optional, a hash
 that contains extra information.")), "")
-         unless $rn;
+         unless $orig_result_naked;
 
     $self->add_doc_lines(__("Return value") . ': ' .
                          ($dres->{res_summary} // "") . " ($dres->{human_res})",

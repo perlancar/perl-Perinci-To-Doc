@@ -189,12 +189,13 @@ sub gen_doc_section_result {
     my $riresmeta = rimeta($meta->{result});
     my $dres      = $self->{_doc_res};
 
+    my $orig_result_naked = $meta->{_orig_result_naked};
+
     $dres->{res_schema} = $meta->{result} ? $meta->{result}{schema} : undef;
     $dres->{res_schema} //= [any => {}];
     $dres->{human_res} = terse_schema($dres->{res_schema});
 
-    my $rn = $meta->{result_naked};
-    if ($rn) {
+    if ($orig_result_naked) {
         $dres->{human_ret} = $dres->{human_res};
     } else {
         $dres->{human_ret} = '[status, msg, result, meta]';
