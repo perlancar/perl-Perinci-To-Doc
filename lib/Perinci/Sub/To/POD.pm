@@ -61,7 +61,7 @@ sub after_gen_doc {
         if $dres->{summary};
 
     my $examples = $meta->{examples};
-    my $orig_result_naked = $meta->{_orig_result_naked};
+    my $orig_result_naked = $meta->{_orig_result_naked} // $meta->{result_naked};
     my $orig_args_as = $meta->{_orig_args_as} // 'hash';
     my $i = 0;
     my @eg_lines;

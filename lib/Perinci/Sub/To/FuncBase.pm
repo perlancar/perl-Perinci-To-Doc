@@ -189,7 +189,7 @@ sub gen_doc_section_result {
     my $riresmeta = rimeta($meta->{result});
     my $dres      = $self->{_doc_res};
 
-    my $orig_result_naked = $meta->{_orig_result_naked};
+    my $orig_result_naked = $meta->{_orig_result_naked} // $meta->{result_naked};
 
     $dres->{res_schema} = $meta->{result} ? $meta->{result}{schema} : undef;
     $dres->{res_schema} //= [any => {}];

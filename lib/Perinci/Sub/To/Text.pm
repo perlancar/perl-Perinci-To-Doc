@@ -24,7 +24,7 @@ sub after_gen_doc {
     my $meta  = $self->meta;
     my $dres  = $self->{_doc_res};
 
-    my $orig_result_naked = $meta->{_orig_result_naked};
+    my $orig_result_naked = $meta->{_orig_result_naked} // $meta->{result_naked};
 
     $self->add_doc_lines(
         "+ ".$dres->{name}.$dres->{args_plterm}.' -> '.$dres->{human_ret},
