@@ -1,5 +1,13 @@
 Revision history for Perinci-To-Doc
 
+0.69    2015-12-17 (PERLANCAR)
+
+	- [Bugfix] Get the correct (original) value of result_naked and
+	  args_as properties.
+
+	- Bump prereq version Log::Any::IfLOG to 0.07.
+
+
 0.68    2015-09-29 (PERLANCAR)
 
 	- Show function's export behavior (exported by default, not
