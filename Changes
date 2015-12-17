@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.70    2015-12-18 (PERLANCAR)
+
+	- [Bugfix] Second attempt to really fix getting the correct value
+	  of result_naked.
+
+
 0.69    2015-12-17 (PERLANCAR)
 
 	- [Bugfix] Get the correct (original) value of result_naked and
