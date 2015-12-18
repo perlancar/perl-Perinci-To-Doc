@@ -168,7 +168,7 @@ sub after_gen_doc {
         my @summary_lines;
         {
             my $summary = $eg->{summary} // "Example #$i";
-            push @summary_lines, ($eg->{summary} . ":", "");
+            push @summary_lines, ($summary . ":", "");
         }
         # XXX example's description
 
