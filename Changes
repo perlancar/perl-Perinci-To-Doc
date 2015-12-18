@@ -1,5 +1,10 @@
 Revision history for Perinci-To-Doc
 
+0.71    2015-12-18 (PERLANCAR)
+
+	- Tweak/fix formatting for examples.
+
+
 0.70    2015-12-18 (PERLANCAR)
 
 	- [Bugfix] Second attempt to really fix getting the correct value
