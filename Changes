@@ -1,5 +1,10 @@
 Revision history for Perinci-To-Doc
 
+0.72    2015-12-18 (PERLANCAR)
+
+	- More tweaks/fixes to formatting of examples (renders description).
+
+
 0.71    2015-12-18 (PERLANCAR)
 
 	- Tweak/fix formatting for examples.
