@@ -114,7 +114,7 @@ sub after_gen_doc {
             # no argv or args, skip, probably not perl example
             next EXAMPLE;
         }
-        my $out = join(
+        my $example_code = join(
             "",
             $dres->{name}, "(",
             $argsdump =~ /\n/ ? "\n" : "",
@@ -148,8 +148,8 @@ sub after_gen_doc {
 
         my $status = $eg->{status} // 200;
         my $comment;
-        my @expl;
-        $out =~ s/^/ /mg;
+        $example_code =~ s/^/ /mg;
+        my @result_lines;
         # all fits on a single not-too-long line
         if ($argsdump !~ /\n/ &&
                 (!defined($resdump) || $resdump !~ /\n/) &&
@@ -162,23 +162,30 @@ sub after_gen_doc {
         } else {
             if (defined $resdump) {
                 $resdump =~ s/^/ /gm;
-                push @expl, "Result:\n\n$resdump";
+                push @result_lines, "Result:\n\n$resdump", "";
             }
         }
-        push @expl, ($eg->{summary} . ($eg->{summary} =~ /\.$/ ? "" : "."))
-            if $eg->{summary};
+        my @summary_lines;
+        {
+            my $summary = $eg->{summary} // "Example #$i";
+            push @summary_lines, ($eg->{summary} . ":", "");
+        }
         # XXX example's description
 
         push @eg_lines, (
-            $out . (defined($comment) ? " # $comment" : ""),
-            ("", "") x !!@expl,
-            @expl,
-            ("", "") x !!@expl,
+            "=item *", "",
+            @summary_lines,
+            $example_code . (defined($comment) ? " # $comment" : ""), "",
+            @result_lines,
         );
     } # for each example
     if (@eg_lines) {
-        $self->add_doc_lines(__("Examples") . ":", "");
-        $self->add_doc_lines(@eg_lines);
+        $self->add_doc_lines(
+            __("Examples") . ":", "",
+            "=over", "",
+            @eg_lines,
+            "=back", "",
+        );
     }
 
     $self->add_doc_lines($self->_md2pod($dres->{description}), "")
