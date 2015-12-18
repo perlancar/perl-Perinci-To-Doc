@@ -168,15 +168,18 @@ sub after_gen_doc {
         my @summary_lines;
         {
             my $summary = $eg->{summary} // "Example #$i";
-            push @summary_lines, ($summary . ":", "");
+            push @summary_lines, ("=item * $summary" . ":", "");
         }
-        # XXX example's description
+
+        my @description_lines;
+        push @description_lines, $self->_md2pod($eg->{description}), ""
+            if $eg->{description};
 
         push @eg_lines, (
-            "=item *", "",
             @summary_lines,
             $example_code . (defined($comment) ? " # $comment" : ""), "",
             @result_lines,
+            @description_lines,
         );
     } # for each example
     if (@eg_lines) {
