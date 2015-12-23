@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.73    2015-12-23 (PERLANCAR)
+
+	- [experimental][ux] When rendering example's result in POD, use
+	  hash key ordering from 'table.fields' result metadata if exists.
+
+
 0.72    2015-12-18 (PERLANCAR)
 
 	- More tweaks/fixes to formatting of examples (renders description).
