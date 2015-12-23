@@ -28,7 +28,7 @@ sub _md2pod {
 # because we need stuffs in parent's gen_doc_section_arguments() even to print
 # the name, we'll just do everything in after_gen_doc().
 sub after_gen_doc {
-    require Data::Dump;
+    require Data::Dump::SortKeys;
 
     my ($self) = @_;
 
@@ -78,12 +78,12 @@ sub after_gen_doc {
                 die "Can't convert args to argv in example #$i ".
                     "of function $dres->{name}): $cares->[0] - $cares->[1]"
                     unless $cares->[0] == 200;
-                $argsdump = Data::Dump::dump($cares->[2]);
+                $argsdump = Data::Dump::SortKeys::dump($cares->[2]);
                 unless ($orig_args_as =~ /ref/) {
                     $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
                 }
             } else {
-                $argsdump = Data::Dump::dump($eg->{args});
+                $argsdump = Data::Dump::SortKeys::dump($eg->{args});
                 unless ($orig_args_as =~ /ref/) {
                     $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
                 }
@@ -100,12 +100,12 @@ sub after_gen_doc {
                 die "Can't convert argv to args in example #$i ".
                     "of function $dres->{name}): $gares->[0] - $gares->[1]"
                     unless $gares->[0] == 200;
-                $argsdump = Data::Dump::dump($gares->[2]);
+                $argsdump = Data::Dump::SortKeys::dump($gares->[2]);
                 unless ($orig_args_as =~ /ref/) {
                     $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
                 }
             } else {
-                $argsdump = Data::Dump::dump($eg->{argv});
+                $argsdump = Data::Dump::SortKey::dump($eg->{argv});
                 unless ($orig_args_as =~ /ref/) {
                     $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
                 }
@@ -126,24 +126,41 @@ sub after_gen_doc {
       GET_RESULT:
         {
             last unless $eg->{'x.doc.show_result'} // 1;
+            my $res;
+            my $tff;
             if (exists $eg->{result}) {
-                $resdump = Data::Dump::dump($eg->{result});
-                last;
-            }
-
-            # XXX since we retrieve the result by calling through Riap,
-            # the result will be json-cleaned.
-            my %extra;
-            if ($eg->{argv}) {
-                $extra{argv} = $eg->{argv};
-            } elsif($eg->{args}) {
-                $extra{args} = $eg->{args};
+                $res = $eg->{result};
+                unless ($orig_result_naked) {
+                    $tff = $res->[3]{'table.fields'};
+                }
             } else {
-                $log->debugf("Example does not provide args/argv, skipped trying to get result from calling function");
-                last GET_RESULT;
+                # XXX since we retrieve the result by calling through Riap,
+                # the result will be json-cleaned.
+                my %extra;
+                if ($eg->{argv}) {
+                    $extra{argv} = $eg->{argv};
+                } elsif($eg->{args}) {
+                    $extra{args} = $eg->{args};
+                } else {
+                    $log->debugf("Example does not provide args/argv, skipped trying to get result from calling function");
+                    last GET_RESULT;
+                }
+                $res = $self->{_pa}->request(call => $self->{url}, \%extra);
+                unless ($orig_result_naked) {
+                    $tff = $res->[3]{'table.fields'};
+                }
+                $res = $res->[2] if $orig_result_naked;
             }
-            my $res = $self->{_pa}->request(call => $self->{url}, \%extra);
-            $resdump = Data::Dump::dump($orig_result_naked ? $res->[2] : $res);
+            local $Data::Dump::SortKeys::SORT_KEYS = do {
+                if ($tff) {
+                    require Sort::ByExample;
+                    my $sorter = Sort::ByExample::sbe($tff);
+                    sub { $sorter->(keys %{$_[0]}) };
+                } else {
+                    undef;
+                }
+            };
+            $resdump = Data::Dump::SortKeys::dump($res);
         }
 
         my $status = $eg->{status} // 200;
