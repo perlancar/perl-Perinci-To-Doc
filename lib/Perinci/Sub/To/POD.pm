@@ -65,11 +65,22 @@ sub after_gen_doc {
     my $orig_args_as = $meta->{_orig_args_as} // 'hash';
     my $i = 0;
     my @eg_lines;
+    my $arg_sorter = do {
+        require Perinci::Sub::Util::Sort;
+        require Sort::ByExample;
+        my $sorter = Sort::ByExample::sbe(
+            [ Perinci::Sub::Util::Sort::sort_args($meta->{args}) ]);
+        sub {
+            my $hash = shift;
+            $sorter->(keys %$hash);
+        };
+    };
   EXAMPLE:
     for my $eg (@$examples) {
         $i++;
         my $argsdump;
         if ($eg->{args}) {
+            local $Data::Dump::SortKeys::SORT_KEYS = $arg_sorter;
             if ($orig_args_as =~ /array/) {
                 require Perinci::Sub::ConvertArgs::Array;
                 my $cares = Perinci::Sub::ConvertArgs::Array::convert_args_to_array(
@@ -89,6 +100,7 @@ sub after_gen_doc {
                 }
             }
         } elsif ($eg->{argv}) {
+            local $Data::Dump::SortKeys::SORT_KEYS = $arg_sorter;
             if ($orig_args_as =~ /hash/) {
                 require Perinci::Sub::GetArgs::Argv;
                 my $gares = Perinci::Sub::GetArgs::Argv::get_args_from_argv(
