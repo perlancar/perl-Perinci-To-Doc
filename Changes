@@ -1,5 +1,14 @@
 Revision history for Perinci-To-Doc
 
+0.74    2015-12-28 (PERLANCAR)
+
+	- [ux] When rendering hash(ref) arguments in examples in POD, use
+          ordering from argument specification's 'pos' properties.
+
+        - Produce nicer coderef dumps in examples in POD by using
+          Data::Dump::SortKeys' 0.04 $REMOVE_PRAGMAS option.
+
+
 0.73    2015-12-23 (PERLANCAR)
 
 	- [experimental][ux] When rendering example's result in POD, use
