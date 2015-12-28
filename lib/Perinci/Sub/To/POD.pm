@@ -29,6 +29,7 @@ sub _md2pod {
 # the name, we'll just do everything in after_gen_doc().
 sub after_gen_doc {
     require Data::Dump::SortKeys;
+    local $Data::Dump::SortKeys::REMOVE_PRAGMAS = 1;
 
     my ($self) = @_;
 
