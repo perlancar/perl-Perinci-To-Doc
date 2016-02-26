@@ -307,7 +307,7 @@ sub after_gen_doc {
             next if 'hidden' ~~ @{ $ra->{arg}{tags} // [] };
             $self->add_doc_lines(join(
                 "",
-                "=item * B<", $name, ">",
+                "=item * B<".(($orig_args_as =~ /array/ ? '$' : '').$name).">",
                 ($ra->{arg}{req} ? '*' : ''), ' => ',
                 "I<", $ra->{human_arg}, ">",
                 (defined($ra->{human_arg_default}) ?
