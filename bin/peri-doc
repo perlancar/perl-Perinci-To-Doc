@@ -1,5 +1,7 @@
 #!perl
 
+# FRAGMENT id=shcompgen-hint command=peri-doc
+
 # DATE
 # VERSION
 
@@ -26,6 +28,7 @@ $SPEC{gen_doc} = {
             req => 1,
             pos => 0,
             schema => 'str*',
+            'x.schema.entity' => 'riap_url',
         },
         format => {
             summary => 'Format',
