@@ -48,7 +48,7 @@ sub after_gen_doc {
     {
         my $pdres = $self->parent->{_doc_res};
         my $fnames = $pdres->{function_names_by_meta_addr}{"$orig_meta"};
-        if (@$fnames > 1) {
+        if ($fnames && @$fnames > 1) {
             $self->add_doc_lines(
                 __("Alias for") . " C<$fnames->[0]>.",
                 "",

@@ -26,9 +26,11 @@ sub BUILD {
 
     $args->{meta} or die "Please specify meta";
 
-    my $pdres = $self->{parent}{_doc_res};
+    my $parent = $self->{parent};
+    my $pdres  = $self->{parent}{_doc_res};
 
-    if (@{ $pdres->{function_names_by_meta_addr}{"$args->{meta}"} } > 1) {
+    if ($pdres &&
+            @{ $pdres->{function_names_by_meta_addr}{"$args->{meta}"} } > 1) {
         # function is an alias to another function, no need to duplicate
         # documenting the function, just mention that this function is alias to
         # another.
