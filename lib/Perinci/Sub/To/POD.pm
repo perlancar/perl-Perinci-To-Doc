@@ -158,7 +158,13 @@ sub after_gen_doc {
                     $log->debugf("Example does not provide args/argv, skipped trying to get result from calling function");
                     last GET_RESULT;
                 }
-                $res = $self->{_pa}->request(call => $self->parent->name . $self->{url}, \%extra);
+                my $url;
+                if ($self->{url} =~ /\A\w+\z/) {
+                    $url = $self->parent->name . $self->{url};
+                } else {
+                    $url = $self->{url};
+                }
+                $res = $self->{_pa}->request(call => $url, \%extra);
                 unless ($orig_result_naked) {
                     $tff = $res->[3]{'table.fields'};
                 }
