@@ -19,7 +19,7 @@ has name => (is=>'rw');
 has url  => (is=>'rw');
 has _pa => (is=>'rw');
 has parent => (is=>'rw'); # points fo Perinci::To::* object
-has export => (is=>'rw', default=>0); # 0=not exported by default but exportable, 1=exported by default, -1=never export
+has export => (is=>'rw', default=>undef); # undef=unknown, 0=not exported by default but exportable, 1=exported by default, -1=never export
 
 sub BUILD {
     my ($self, $args) = @_;

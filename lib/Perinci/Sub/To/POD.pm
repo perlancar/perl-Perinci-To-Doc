@@ -225,8 +225,10 @@ sub after_gen_doc {
         if $dres->{description};
 
     {
-        my $export = $self->{export} // 0;
-        if ($export == 0) {
+        my $export = $self->{export};
+        if (!defined($export)) {
+            # unknown
+        } elsif ($export == 0) {
             $self->add_doc_lines(__("This function is not exported by default, but exportable."), "");
         } elsif ($export == 1) {
             $self->add_doc_lines(__("This function is exported by default."), "");
