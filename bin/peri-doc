@@ -38,11 +38,7 @@ sub gen_doc {
     require File::Which;
     require Perinci::Access;
 
-    state $pa = Perinci::Access->new(
-        handler_args => {
-            normalize_metadata => 0,
-        },
-    );
+    state $pa = Perinci::Access->new();
 
     my %args = @_;
     # XXX schema
