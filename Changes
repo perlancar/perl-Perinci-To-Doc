@@ -1,5 +1,26 @@
 Revision history for Perinci-To-Doc
 
+0.75    2016-02-26 (PERLANCAR)
+
+        [Bug fixes]
+
+        - When launching Riap 'call' request to functions to get example result,
+          didn't use full URL, so peri-doc fails to render example results.
+
+        - When getting function metadata, didn't use 'normalize_metadata'
+          setting of Perinci::Access, so we didn't get _orig_args_as &
+          _orig_result_naked keys. This caused rendering to be incorrect.
+
+        - peri-doc: Avoid dereference error when we only generate doc for a
+          single function.
+
+        - Don't show sub's export information if unknown. Previously peri-doc
+          showed 'not exported by default but exportable' but this might be
+          wrong depending on the package settings. Now by default we don't show
+          export information at all, unless export information is supplied in
+          the 'export' attribute.
+
+
 0.74    2015-12-28 (PERLANCAR)
 
 	- [ux] When rendering hash(ref) arguments in examples in POD, use
