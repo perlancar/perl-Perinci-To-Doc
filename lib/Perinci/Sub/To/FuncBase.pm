@@ -130,7 +130,7 @@ sub gen_doc_section_arguments {
     my $args_p = $meta->{args} // {};
 
     # perl term for args, whether '$arg1, $arg2, ...', or '%args', etc
-    my $aa = $meta->{args_as} // 'hash';
+    my $aa = $meta->{_orig_args_as} // 'hash';
     my $aplt;
     if (!keys(%$args_p)) {
         $aplt = '()';
