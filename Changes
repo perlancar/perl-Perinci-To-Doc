@@ -1,5 +1,15 @@
 Revision history for Perinci-To-Doc
 
+0.76    2016-02-26 (PERLANCAR)
+
+	- Tweak whitespace stripping in rendering example's array args.
+
+	- peri-doc: Completion tweak/fix.
+
+	- [Bugfix] Didn't use _orig_args_as when constructing function
+	  usage line.
+
+
 0.75    2016-02-26 (PERLANCAR)
 
         [Bug fixes]
