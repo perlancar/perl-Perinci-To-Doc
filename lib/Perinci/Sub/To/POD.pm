@@ -158,7 +158,7 @@ sub after_gen_doc {
                     $log->debugf("Example does not provide args/argv, skipped trying to get result from calling function");
                     last GET_RESULT;
                 }
-                $res = $self->{_pa}->request(call => $self->{url}, \%extra);
+                $res = $self->{_pa}->request(call => $self->parent->name . $self->{url}, \%extra);
                 unless ($orig_result_naked) {
                     $tff = $res->[3]{'table.fields'};
                 }

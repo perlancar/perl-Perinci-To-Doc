@@ -60,6 +60,7 @@ sub gen_doc {
 
     my $doc;
     if ($type eq 'function') {
+        #use DD; dd $meta;
         if ($format =~ /pod|man|html/) {
             require Perinci::Sub::To::POD;
             $doc = Perinci::Sub::To::POD->new(meta=>$meta, name=>$fname, url=>$url);
@@ -86,6 +87,7 @@ sub gen_doc {
         $res = $pa->request(child_metas => $url);
         return err(500, "Can't child_metas $url", $res) unless $res->[0] == 200;
         my $cmetas = $res->[2];
+        #use DD; dd $cmetas;
         if ($format =~ /pod|man|html/) {
             require Perinci::To::POD;
             $doc = Perinci::To::POD->new(
