@@ -92,12 +92,12 @@ sub after_gen_doc {
                     unless $cares->[0] == 200;
                 $argsdump = Data::Dump::SortKeys::dump($cares->[2]);
                 unless ($orig_args_as =~ /ref/) {
-                    $argsdump =~ s/^\[\n*//; $argsdump =~ s/,?\s*\]\n?$//;
+                    $argsdump =~ s/\A\[\s*//s; $argsdump =~ s/,?\s*\]\s*\z//s;
                 }
             } else {
                 $argsdump = Data::Dump::SortKeys::dump($eg->{args});
                 unless ($orig_args_as =~ /ref/) {
-                    $argsdump =~ s/^\{\n*//; $argsdump =~ s/,?\s*\}\n?$//;
+                    $argsdump =~ s/\A\{\s*//s; $argsdump =~ s/,?\s*\}\s*\z//s;
                 }
             }
         } elsif ($eg->{argv}) {
