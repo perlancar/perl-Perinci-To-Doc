@@ -239,7 +239,7 @@ sub after_gen_doc {
         } elsif ($export == 1) {
             $self->add_doc_lines(__("This function is exported by default."), "");
         } elsif ($export == -1) {
-            $self->add_doc_lines(__("This function is not exportable."), "");
+            $self->add_doc_lines(__("This function is not exported."), "");
         }
     }
 
