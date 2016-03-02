@@ -1,5 +1,14 @@
 Revision history for Perinci-To-Doc
 
+0.77    2016-03-02 (PERLANCAR)
+
+	- Tweak wording in generated POD: 'This function is not exportable' ->
+	  'This function is not exported'.
+
+	- Tweak generated POD: show argument as "$arg" instead of "arg" in POD
+	  when args_as =~ /array/.
+
+
 0.76    2016-02-26 (PERLANCAR)
 
 	- Tweak whitespace stripping in rendering example's array args.
