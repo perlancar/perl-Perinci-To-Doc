@@ -203,7 +203,8 @@ sub after_gen_doc {
         }
         my @summary_lines;
         {
-            my $summary = $eg->{summary} // "Example #$i";
+            my $summary = $eg->{summary} //
+                "Example #$i".(defined($eg->{name}) ? " ($eg->{name})" :"");
             push @summary_lines, ("=item * $summary" . ":", "");
         }
 
