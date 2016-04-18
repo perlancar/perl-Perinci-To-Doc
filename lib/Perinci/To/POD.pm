@@ -123,19 +123,27 @@ sub gen_doc_section_functions {
 sub gen_doc_section_links {
     my $self = shift;
 
+    my %seen_urls;
     my $meta = $self->meta;
+    my $child_metas = $self->child_metas;
 
-    if ($meta->{links} && @{ $meta->{links} }) {
+    my @links;
+    push @links, @{ $meta->{links} } if $meta->{links};
+    for my $m (values %$child_metas) {
+        push @links, @{ $m->{links} } if $m->{links};
+    }
+
+    if (@links) {
         $self->add_doc_lines("=head1 " . __("SEE ALSO"), "");
-        for my $link (@{ $meta->{links} }) {
+        for my $link0 (@links) {
+            my $link = ref($link0) ? $link0 : {url=>$link0};
             my $url = $link->{url};
-            # currently only handles pm: urls (link to another perl module)
-            next unless $url =~ m!\Apm:(.+)!;
-            my $mod = $1;
+            next if $seen_urls{$url}++;
+            $url =~ s!\Apm:!!;
             $self->add_doc_lines(
-                "L<$mod>" .
+                "L<$url>" .
                     ($link->{summary} ? ", $link->{summary}." : "") .
-                    ($link->{summary} ? $self->_md2pod($link->{description}) : ""),
+                    ($link->{description} ? ". " . $self->_md2pod($link->{description}) : ""),
                 "");
         }
     }

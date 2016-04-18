@@ -377,21 +377,23 @@ that contains extra information.")), "")
     $self->add_doc_lines("", $self->_md2pod($dres->{res_description}), "")
         if $dres->{res_description};
 
-    if ($meta->{links} && @{ $meta->{links} }) {
-        $self->add_doc_lines(__("See also") . ":", "", "=over", "");
-        for my $link (@{ $meta->{links} }) {
-            my $url = $link->{url};
-            if ($url =~ m!\Apm:(.+)!) {
-                my $mod = $1;
-                $self->add_doc_lines("* L<$mod>", "");
-            } else {
-                $self->add_doc_lines("* L<$url>", "");
-            }
-            $self->add_doc_lines($link->{summary}.".", "") if $link->{summary};
-            $self->add_doc_lines($self->_md2pod($link->{description}), "") if $link->{description};
-        }
-        $self->add_doc_lines("=back", "");
-    }
+    # we only show See Also on a per-package basis
+    #
+    #if ($meta->{links} && @{ $meta->{links} }) {
+    #    $self->add_doc_lines(__("See also") . ":", "", "=over", "");
+    #    for my $link (@{ $meta->{links} }) {
+    #        my $url = $link->{url};
+    #        if ($url =~ m!\Apm:(.+)!) {
+    #            my $mod = $1;
+    #            $self->add_doc_lines("* L<$mod>", "");
+    #        } else {
+    #            $self->add_doc_lines("* L<$url>", "");
+    #        }
+    #        $self->add_doc_lines($link->{summary}.".", "") if $link->{summary};
+    #        $self->add_doc_lines($self->_md2pod($link->{description}), "") if $link->{description};
+    #    }
+    #    $self->add_doc_lines("=back", "");
+    #}
 }
 
 1;
