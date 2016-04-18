@@ -1,5 +1,14 @@
 Revision history for Perinci-To-Doc
 
+0.78    2016-04-18 (PERLANCAR)
+
+	- In package's See Also POD section, also include links from each
+	  function; don't render links as See Also paragraph for each
+	  individual function: do it on a per-package basis.
+
+	- Also show non-pm: links in POD's See Also.
+
+
 0.77    2016-03-02 (PERLANCAR)
 
 	- Tweak wording in generated POD: 'This function is not exportable' ->
