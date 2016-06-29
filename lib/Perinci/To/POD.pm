@@ -142,7 +142,7 @@ sub gen_doc_section_links {
             $url =~ s!\Apm:!!;
             $self->add_doc_lines(
                 "L<$url>" .
-                    ($link->{summary} ? ", $link->{summary}." : "") .
+                    ($link->{summary} ? ". $link->{summary}." : "") .
                     ($link->{description} ? ". " . $self->_md2pod($link->{description}) : ""),
                 "");
         }
