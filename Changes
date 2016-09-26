@@ -1,5 +1,14 @@
 Revision history for Perinci-To-Doc
 
+0.79    2016-09-26 (PERLANCAR)
+
+	- Recognize prog: URLs as well as pm:.
+
+	- Tweak metadata: replace x.schema.entity with schema.
+
+	- Formatting of generated Links POD section.
+
+
 0.78    2016-04-18 (PERLANCAR)
 
 	- In package's See Also POD section, also include links from each
