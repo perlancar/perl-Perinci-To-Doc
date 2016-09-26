@@ -139,11 +139,11 @@ sub gen_doc_section_links {
             my $link = ref($link0) ? $link0 : {url=>$link0};
             my $url = $link->{url};
             next if $seen_urls{$url}++;
-            $url =~ s!\Apm:!!;
+            $url =~ s!\A(pm|prog):(//?)?!!;
             $self->add_doc_lines(
-                "L<$url>" .
-                    ($link->{summary} ? ". $link->{summary}." : "") .
-                    ($link->{description} ? ". " . $self->_md2pod($link->{description}) : ""),
+                "L<$url>." .
+                    ($link->{summary} ? " $link->{summary}." : "") .
+                    ($link->{description} ? " " . $self->_md2pod($link->{description}) : ""),
                 "");
         }
     }
