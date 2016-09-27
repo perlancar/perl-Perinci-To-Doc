@@ -1,5 +1,11 @@
 Revision history for Perinci-To-Doc
 
+0.80    2016-09-27 (PERLANCAR)
+
+	- Aside from pm:, also replace autolink with pod: scheme with
+	  L<...>.
+
+
 0.79    2016-09-26 (PERLANCAR)
 
 	- Recognize prog: URLs as well as pm:.
