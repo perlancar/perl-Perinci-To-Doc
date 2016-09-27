@@ -139,7 +139,7 @@ sub gen_doc_section_links {
             my $link = ref($link0) ? $link0 : {url=>$link0};
             my $url = $link->{url};
             next if $seen_urls{$url}++;
-            $url =~ s!\A(pm|prog):(//?)?!!;
+            $url =~ s!\A(pm|pod|prog):(//?)?!!;
             $self->add_doc_lines(
                 "L<$url>." .
                     ($link->{summary} ? " $link->{summary}." : "") .
