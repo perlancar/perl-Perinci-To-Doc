@@ -313,7 +313,8 @@ sub after_gen_doc {
         use experimental 'smartmatch';
         for my $name (sort keys %{$dres->{args}}) {
             my $ra = $dres->{args}{$name};
-            next if 'hidden' ~~ @{ $ra->{arg}{tags} // [] };
+            next if 'hidden'     ~~ @{ $ra->{arg}{tags} // [] };
+            next if 'hidden-mod' ~~ @{ $ra->{arg}{tags} // [] };
             $self->add_doc_lines(join(
                 "",
                 "=item * B<".(($orig_args_as =~ /array/ ? '$' : '').$name).">",
