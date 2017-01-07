@@ -1,5 +1,3 @@
-Revision history for Perinci-To-Doc
-
 0.81    2016-10-27 (PERLANCAR)
 
 	- Aside from 'hidden' tag, skip documenting argument if it has
