@@ -40,8 +40,12 @@ sub after_gen_doc {
 
     my $has_args = !!keys(%{$dres->{args}});
 
+    $self->add_doc_lines("=head2 $dres->{name}", "");
+
     $self->add_doc_lines(
-        "=head2 " . $dres->{name} .
+        "Usage:",
+        "",
+        " " . $dres->{name} .
             ($has_args ? $dres->{args_plterm} : "()").' -> '.$dres->{human_ret},
         "");
 
