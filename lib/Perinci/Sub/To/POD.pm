@@ -201,8 +201,16 @@ sub after_gen_doc {
             }
         } else {
             if (defined $resdump) {
-                $resdump =~ s/^/ /gm;
-                push @result_lines, "Result:\n\n$resdump", "";
+                my @resdump = split /^/, $resdump;
+                if (my $max_lines = $eg->{'x.doc.max_result_lines'}) {
+                    $max_lines += 7; # to accomodate extra lines associated with envelopes and array enclosures
+                    if (@resdump > $max_lines) {
+                        my $n = int($max_lines/2);
+                        splice @resdump, $n, (@resdump - $max_lines + 1), "# ...snipped for brevity...\n";
+                        $resdump = join("", @resdump);
+                    }
+                }
+                push @result_lines, "Result:", "", (map {" $_"} @resdump), "";
             }
         }
         my @summary_lines;
