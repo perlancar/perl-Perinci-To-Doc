@@ -206,7 +206,8 @@ sub after_gen_doc {
                     $max_lines += 7; # to accomodate extra lines associated with envelopes and array enclosures
                     if (@resdump > $max_lines) {
                         my $n = int($max_lines/2);
-                        splice @resdump, $n, (@resdump - $max_lines + 1), "# ...snipped for brevity...\n";
+                        my $num_remove = @resdump - $max_lines + 1;
+                        splice @resdump, $n, $num_remove, "# ...snipped ".($num_remove > 1 ? "$num_remove lines" : "1 line")." for brevity...\n";
                         $resdump = join("", @resdump);
                     }
                 }
