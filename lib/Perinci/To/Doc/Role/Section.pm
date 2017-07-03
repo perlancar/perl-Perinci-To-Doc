@@ -4,7 +4,7 @@ package Perinci::To::Doc::Role::Section;
 # VERSION
 
 use 5.010;
-use Log::Any::IfLOG '$log';
+use Log::ger;
 use Moo::Role;
 
 has doc_sections => (is=>'rw');
@@ -77,7 +77,7 @@ sub dec_doc_indent {
 
 sub gen_doc {
     my ($self, %opts) = @_;
-    $log->tracef("-> gen_doc(opts=%s)", \%opts);
+    log_trace("-> gen_doc(opts=%s)", \%opts);
 
     $self->doc_lines([]);
     $self->doc_indent_level(0);
@@ -86,13 +86,13 @@ sub gen_doc {
 
     for my $s (@{ $self->doc_sections // [] }) {
         my $meth = "gen_doc_section_$s";
-        $log->tracef("=> $meth(%s)", \%opts);
+        log_trace("=> $meth(%s)", \%opts);
         $self->$meth(%opts);
     }
 
     $self->after_gen_doc(%opts) if $self->can("after_gen_doc");
 
-    $log->tracef("<- gen_doc()");
+    log_trace("<- gen_doc()");
     join("", @{ $self->doc_lines });
 }
 

@@ -4,7 +4,7 @@ package Perinci::Sub::To::POD;
 # VERSION
 
 use 5.010001;
-use Log::Any::IfLOG '$log';
+use Log::ger;
 use Moo;
 
 use Locale::TextDomain::UTF8 'Perinci-To-Doc';
@@ -159,7 +159,7 @@ sub after_gen_doc {
                 } elsif($eg->{args}) {
                     $extra{args} = $eg->{args};
                 } else {
-                    $log->debugf("Example does not provide args/argv, skipped trying to get result from calling function");
+                    log_debug("Example does not provide args/argv, skipped trying to get result from calling function");
                     last GET_RESULT;
                 }
                 my $url;

@@ -4,7 +4,7 @@ package Perinci::Sub::To::FuncBase;
 # VERSION
 
 use 5.010;
-use Log::Any::IfLOG '$log';
+use Log::ger;
 use Moo;
 
 use Data::Dump::OneLine qw(dump1);
@@ -63,7 +63,7 @@ sub BUILD {
 
 sub before_gen_doc {
     my ($self, %opts) = @_;
-    $log->tracef("=> FuncBase's before_gen_doc(opts=%s)", \%opts);
+    log_trace("=> FuncBase's before_gen_doc(opts=%s)", \%opts);
 
     $self->{_orig_meta} = $self->{meta};
     $self->{meta} = normalize_function_metadata($self->{meta});

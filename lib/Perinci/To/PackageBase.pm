@@ -5,7 +5,7 @@ package Perinci::To::PackageBase;
 
 use 5.010;
 use Data::Dump::OneLine qw(dump1);
-use Log::Any::IfLOG '$log';
+use Log::ger;
 use Moo;
 use Perinci::Object;
 
@@ -38,7 +38,7 @@ sub BUILD {
 
 sub before_gen_doc {
     my ($self, %opts) = @_;
-    $log->tracef("=> PackageBase's before_gen_doc(opts=%s)", \%opts);
+    log_trace("=> PackageBase's before_gen_doc(opts=%s)", \%opts);
 
     # initialize hash to store [intermediate] result
     $self->{_doc_res} = {};
