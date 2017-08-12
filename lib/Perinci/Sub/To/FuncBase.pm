@@ -118,7 +118,9 @@ sub gen_doc_section_description {
     my $rimeta = rimeta($self->meta);
     my $dres   = $self->{_doc_res};
 
-    $dres->{description} = $rimeta->langprop("description");
+    # XXX proper alt. search
+    $dres->{description} = $self->{meta}{'description.alt.env.perl'} //
+        $rimeta->langprop("description");
 }
 
 sub gen_doc_section_arguments {
