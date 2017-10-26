@@ -143,6 +143,7 @@ sub after_gen_doc {
       GET_RESULT:
         {
             last unless $eg->{'x.doc.show_result'} // 1;
+            log_trace("orig_result_naked: %s", $orig_result_naked);
             my $res;
             my $tff;
             if (exists $eg->{result}) {
@@ -172,8 +173,8 @@ sub after_gen_doc {
                 unless ($orig_result_naked) {
                     $tff = $res->[3]{'table.fields'};
                 }
-                $res = $res->[2] if $orig_result_naked;
             }
+            $res = $res->[2] if $orig_result_naked;
             local $Data::Dump::SortKeys::SORT_KEYS = do {
                 if ($tff) {
                     require Sort::ByExample;
