@@ -84,6 +84,7 @@ sub after_gen_doc {
   EXAMPLE:
     for my $eg (@$examples) {
         $i++;
+        next if exists $eg->{doc} && !$eg->{doc};
         my $argsdump;
         if ($eg->{args}) {
             local $Data::Dump::SortKeys::SORT_KEYS = $arg_sorter;
