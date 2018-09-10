@@ -28,6 +28,7 @@ sub _md2pod {
 # because we need stuffs in parent's gen_doc_section_arguments() even to print
 # the name, we'll just do everything in after_gen_doc().
 sub after_gen_doc {
+    no warnings 'once';
     require Data::Dump::SortKeys;
     local $Data::Dump::SortKeys::REMOVE_PRAGMAS = 1;
 
