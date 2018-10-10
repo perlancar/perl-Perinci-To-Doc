@@ -202,7 +202,7 @@ sub gen_doc_section_result {
     if ($orig_result_naked) {
         $dres->{human_ret} = $dres->{human_res};
     } else {
-        $dres->{human_ret} = '[status, msg, result, meta]';
+        $dres->{human_ret} = '[status, msg, payload, meta]';
     }
 
     $dres->{res_summary}     = $riresmeta->langprop("summary");
