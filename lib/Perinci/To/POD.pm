@@ -111,13 +111,45 @@ sub gen_doc_section_functions {
     $self->SUPER::gen_doc_section_functions;
 
     # XXX categorize functions based on tags?
+    my $i;
     for my $furi (sort keys %{ $dres->{functions} }) {
+        $self->add_doc_lines('') if $i++;
+        my $meta = $dres->{function_metas}{$furi};
+        next if ($meta->{is_meth} || $meta->{is_class_meth}) && !($meta->{is_func} // 1);
         $self->add_doc_lines("");
         for (@{ $dres->{functions}{$furi} }) {
             chomp;
             $self->add_doc_lines($_);
         }
     }
+    $self->add_doc_lines('');
+}
+
+sub gen_doc_section_methods {
+    require Perinci::Sub::To::POD;
+
+    my ($self) = @_;
+    my $dres = $self->{_doc_res};
+
+    $self->add_doc_lines(
+        "=head1 " . uc(__("Methods")),
+    );
+
+    $self->SUPER::gen_doc_section_methods;
+
+    # XXX categorize methods based on tags?
+    my $i;
+    for my $furi (sort keys %{ $dres->{functions} }) {
+        $self->add_doc_lines('') if $i++;
+        my $meta = $dres->{function_metas}{$furi};
+        next unless ($meta->{is_meth} || $meta->{is_class_meth}) && !($meta->{is_func} // 1);
+        $self->add_doc_lines("");
+        for (@{ $dres->{functions}{$furi} }) {
+            chomp;
+            $self->add_doc_lines($_);
+        }
+    }
+    $self->add_doc_lines('');
 }
 
 sub gen_doc_section_links {

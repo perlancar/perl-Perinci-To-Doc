@@ -82,13 +82,39 @@ sub gen_doc_section_functions {
 
     $self->add_doc_lines("", uc(__("Functions")), "");
     $self->SUPER::gen_doc_section_functions;
+    my $i;
     for my $furi (sort keys %{ $dres->{functions} }) {
+        $self->add_doc_lines('') if $i++;
+        my $meta = $dres->{function_metas}{$furi};
+        next if ($meta->{is_meth} || $meta->{is_class_meth}) && !($meta->{is_func} // 1);
         for (@{ $dres->{functions}{$furi} }) {
             chomp;
             $self->add_doc_lines({wrap=>0}, $_);
         }
-        $self->add_doc_lines('');
     }
+    $self->add_doc_lines('');
+}
+
+sub gen_doc_section_methods {
+    require Perinci::Sub::To::Text;
+
+    my ($self) = @_;
+
+    my $dres = $self->{_doc_res};
+
+    $self->add_doc_lines("", uc(__("Methods")), "");
+    $self->SUPER::gen_doc_section_methods;
+    my $i;
+    for my $furi (sort keys %{ $dres->{functions} }) {
+        $self->add_doc_lines('') if $i++;
+        my $meta = $dres->{function_metas}{$furi};
+        next unless ($meta->{is_meth} || $meta->{is_class_meth}) && !($meta->{is_func} // 1);
+        for (@{ $dres->{functions}{$furi} }) {
+            chomp;
+            $self->add_doc_lines({wrap=>0}, $_);
+        }
+    }
+    $self->add_doc_lines('');
 }
 
 1;

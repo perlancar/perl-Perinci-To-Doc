@@ -28,6 +28,7 @@ sub BUILD {
         'version',
         'description',
         'functions',
+        'methods',
         'links',
     ];
     $self->{_pa} //= do {
@@ -113,7 +114,12 @@ sub gen_doc_section_functions {
                 meta=>$meta,
                 url=> ($self->{url}//'') . $furi,
             );
+        $dres->{function_metas}{$furi} = $meta;
     }
+}
+
+sub gen_doc_section_methods {
+    # already done by gen_doc_section_functions
 }
 
 sub gen_doc_section_links {
