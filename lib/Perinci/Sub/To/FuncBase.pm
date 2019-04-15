@@ -148,7 +148,7 @@ sub gen_doc_section_arguments {
             join(', ',
                  map {
                      my $var = $_; $var =~ s/[^A-Za-z0-9_]+/_/g;
-                     "\$$var" . ($args_p->{$_}{greedy} ? ', ...' : '');
+                     "\$$var" . (($args_p->{$_}{slurpy} // $args_p->{$_}{greedy}) ? ', ...' : '');
                  }
                      sort {
                          ($args_p->{$a}{pos} // 9999) <=>
