@@ -136,7 +136,7 @@ sub after_gen_doc {
         my $example_code = join(
             "",
             $dres->{name}, "(",
-            $argsdump =~ /\n/ ? "\n" : "",
+            $argsdump =~ /\n/ ? "\n  " : "",
             $argsdump,
             $argsdump =~ /\n/ ? "\n" : "",
             ");",
