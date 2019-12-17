@@ -15,6 +15,11 @@ sub BUILD {
     my ($self, $args) = @_;
 }
 
+sub _podquote {
+    require String::PodQuote;
+    String::PodQuote::pod_quote($_[0]);
+}
+
 sub _md2pod {
     require Markdown::To::POD;
 
@@ -62,9 +67,12 @@ sub after_gen_doc {
         }
     }
 
-    $self->add_doc_lines(
-        $dres->{summary}.($dres->{summary} =~ /\.$/ ? "":"."), "")
-        if $dres->{summary};
+    if (defined $dres->{summary}) {
+        $self->add_doc_lines(
+            $self->_podquote($dres->{summary}) .
+                  ($dres->{summary} =~ /\.$/ ? "":"."),
+            "");
+    }
 
     my $examples = $meta->{examples};
     my $orig_result_naked = $meta->{_orig_result_naked} // $meta->{result_naked};
@@ -220,7 +228,7 @@ sub after_gen_doc {
         }
         my @summary_lines;
         {
-            my $summary = $eg->{summary} //
+            my $summary = $self->_podquote($eg->{summary}) //
                 "Example #$i".(defined($eg->{name}) ? " ($eg->{name})" :"");
             push @summary_lines, ("=item * $summary" . ":", "");
         }
@@ -341,9 +349,12 @@ sub after_gen_doc {
                      " (" . __("default") .
                          ": $ra->{human_arg_default})" : "")
             ), "");
-            $self->add_doc_lines(
-                $ra->{summary} . ($ra->{summary} =~ /\.$/ ? "" : "."),
-                "") if $ra->{summary};
+            if (defined $ra->{summary}) {
+                $self->add_doc_lines(
+                    $self->_podquote($ra->{summary}) .
+                        ($ra->{summary} =~ /\.$/ ? "" : "."),
+                    "");
+            }
             $self->add_doc_lines(
                 $self->_md2pod($ra->{description}),
                 "") if $ra->{description};
@@ -372,8 +383,8 @@ sub after_gen_doc {
                          ": $spa->{default})" : "")
             ), "");
             $self->add_doc_lines(
-                $spa->{summary} . ($spa->{summary} =~ /\.$/ ? "" : "."),
-                "") if $spa->{summary};
+                $self->_podquote($spa->{summary}) . ($spa->{summary} =~ /\.$/ ? "" : "."),
+                "") if defined $spa->{summary};
         }
         $self->add_doc_lines("=back", "");
     }
@@ -407,8 +418,8 @@ that contains extra information.")), "")
     #        } else {
     #            $self->add_doc_lines("* L<$url>", "");
     #        }
-    #        $self->add_doc_lines($link->{summary}.".", "") if $link->{summary};
-    #        $self->add_doc_lines($self->_md2pod($link->{description}), "") if $link->{description};
+    #        $self->add_doc_lines($self->_podquote($link->{summary}).".", "") if defined $link->{summary};
+    #        $self->add_doc_lines($self->_md2pod($link->{description}), "") if defined $link->{description};
     #    }
     #    $self->add_doc_lines("=back", "");
     #}

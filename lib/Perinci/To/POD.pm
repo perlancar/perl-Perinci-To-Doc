@@ -15,6 +15,11 @@ sub BUILD {
     my ($self, $args) = @_;
 }
 
+sub _podquote {
+    require String::PodQuote;
+    String::PodQuote::pod_quote($_[0]);
+}
+
 sub _md2pod {
     require Markdown::To::POD;
 
@@ -42,7 +47,7 @@ sub gen_doc_section_summary {
     $self->add_doc_lines(
         "=head1 " . uc(__("Name")),
         "",
-        $name_summary,
+        $self->_podquote($name_summary),
         "",
     );
 }
@@ -174,8 +179,8 @@ sub gen_doc_section_links {
             $url =~ s!\A(pm|pod|prog):(//?)?!!;
             $self->add_doc_lines(
                 "L<$url>." .
-                    ($link->{summary} ? " $link->{summary}." : "") .
-                    ($link->{description} ? " " . $self->_md2pod($link->{description}) : ""),
+                    (defined $link->{summary} ? " ".$self->_podquote($link->{summary}).".") : "") .
+                    (defined $link->{description} ? " " . $self->_md2pod($link->{description}) : ""),
                 "");
         }
     }
