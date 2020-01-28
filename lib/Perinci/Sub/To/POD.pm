@@ -17,7 +17,7 @@ sub BUILD {
 
 sub _podquote {
     require String::PodQuote;
-    String::PodQuote::pod_quote($_[0]);
+    String::PodQuote::pod_quote($_[1]);
 }
 
 sub _md2pod {
@@ -359,7 +359,7 @@ sub after_gen_doc {
                 $self->_md2pod($ra->{description}),
                 "") if $ra->{description};
         }
-        $self->add_doc_lines("=back", "");
+        $self->add_doc_lines("", "=back", "");
     } else {
         $self->add_doc_lines(__("No arguments") . ".", "");
     }
