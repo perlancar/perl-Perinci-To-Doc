@@ -179,7 +179,7 @@ sub gen_doc_section_links {
             $url =~ s!\A(pm|pod|prog):(//?)?!!;
             $self->add_doc_lines(
                 "L<$url>." .
-                    (defined $link->{summary} ? " ".$self->_podquote($link->{summary}).".") : "") .
+                    (defined $link->{summary} ? " ".$self->_podquote($link->{summary})."." : "") .
                     (defined $link->{description} ? " " . $self->_md2pod($link->{description}) : ""),
                 "");
         }
