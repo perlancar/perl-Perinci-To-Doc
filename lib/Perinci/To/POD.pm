@@ -167,7 +167,13 @@ sub gen_doc_section_links {
     my @links;
     push @links, @{ $meta->{links} } if $meta->{links};
     for my $m (values %$child_metas) {
-        push @links, @{ $m->{links} } if $m->{links};
+        for my $link (@{ $m->{links} || [] }) {
+            # skip function that links to a prog: URL; this is probably not
+            # relevant for module doc
+            next if $link->{url} =~ /\Aprog:/;
+
+            push @links, $link;
+        }
     }
 
     if (@links) {
