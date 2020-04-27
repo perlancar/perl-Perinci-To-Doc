@@ -141,19 +141,31 @@ sub gen_doc_section_arguments {
     } elsif ($aa eq 'hashref') {
         $aplt = '(\%args)';
     } elsif ($aa =~ /\Aarray(ref)?\z/) {
+        my @pos_args;
+        my @named_args;
+        my $all_named_args_are_optional = 1;
+        for (sort { ($args_p->{$a}{pos} // 9999) <=>
+                        ($args_p->{$b}{pos} // 9999) } keys %$args_p) {
+            if (defined $args_p->{$_}{pos}) {
+                push @pos_args, $_;
+            } else {
+                push @named_args, $_;
+                $all_named_args_are_optional = 0 if $args_p->{$_}{req};
+            }
+        }
+
         $aplt = join(
             '',
             '(',
             ($aa eq 'arrayref' ? '[' : ''),
-            join(', ',
-                 map {
-                     my $var = $_; $var =~ s/[^A-Za-z0-9_]+/_/g;
-                     "\$$var" . (($args_p->{$_}{slurpy} // $args_p->{$_}{greedy}) ? ', ...' : '');
-                 }
-                     sort {
-                         ($args_p->{$a}{pos} // 9999) <=>
-                             ($args_p->{$b}{pos} // 9999)
-                         } keys %$args_p),
+            join(
+                ', ',
+                (@named_args ? ($all_named_args_are_optional ? (" [ \\\%optional_named_args ] ") : ("\\\%named_args")) : ()),
+                map {
+                    my $var = $_; $var =~ s/[^A-Za-z0-9_]+/_/g;
+                    "\$$var" . (($args_p->{$_}{slurpy} // $args_p->{$_}{greedy}) ? ', ...' : '');
+                } @pos_args,
+            ),
             ($aa eq 'arrayref' ? ']' : ''),
             ')'
         );

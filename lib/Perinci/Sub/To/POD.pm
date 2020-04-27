@@ -342,7 +342,7 @@ sub after_gen_doc {
             next if 'hidden-mod' ~~ @{ $ra->{arg}{tags} // [] };
             $self->add_doc_lines(join(
                 "",
-                "=item * B<".(($orig_args_as =~ /array/ ? '$' : '').$name).">",
+                "=item * B<".(($orig_args_as =~ /array/ && defined($ra->{arg}{pos}) ? '$' : '').$name).">",
                 ($ra->{arg}{req} ? '*' : ''), ' => ',
                 "I<", $ra->{human_arg}, ">",
                 (defined($ra->{human_arg_default}) ?
