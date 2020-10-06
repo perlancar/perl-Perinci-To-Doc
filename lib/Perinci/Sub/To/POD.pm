@@ -192,7 +192,7 @@ sub after_gen_doc {
                     $tff = $res->[3]{'table.fields'};
                 }
             }
-            $res = $res->[2] unless $orig_result_naked;
+            $res = $res->[2] if $orig_result_naked;
             local $Data::Dump::SortKeys::SORT_KEYS = do {
                 if ($tff) {
                     require Sort::ByExample;
