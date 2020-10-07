@@ -162,6 +162,13 @@ sub after_gen_doc {
                 unless ($orig_result_naked) {
                     $tff = $res->[3]{'table.fields'};
                 }
+            } elsif (exists $eg->{naked_result}) {
+                $res = $orig_result_naked ? $eg->{naked_result} : [200, "OK (envelope generated)", $eg->{naked_result}];
+            } elsif (exists $eg->{env_result}) {
+                $res = $orig_result_naked ? $eg->{env_result}[2] : $eg->{env_result};
+                unless ($orig_result_naked) {
+                    $tff = $res->[3]{'table.fields'};
+                }
             } else {
                 # XXX since we retrieve the result by calling through Riap,
                 # the result will be json-cleaned.
@@ -185,7 +192,7 @@ sub after_gen_doc {
                     $tff = $res->[3]{'table.fields'};
                 }
             }
-            $res = $res->[2] unless $orig_result_naked;
+            $res = $res->[2] if $orig_result_naked;
             local $Data::Dump::SortKeys::SORT_KEYS = do {
                 if ($tff) {
                     require Sort::ByExample;
