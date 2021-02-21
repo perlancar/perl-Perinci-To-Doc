@@ -179,7 +179,6 @@ sub after_gen_doc {
                     log_debug("Example does not provide args/argv, skipped trying to get result from calling function");
                     last GET_RESULT;
                 }
-                say "D2";
                 my $url;
                 if ($self->{url} =~ /\A\w+\z/) {
                     $url = $self->parent->name . $self->{url};
