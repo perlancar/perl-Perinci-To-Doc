@@ -1,6 +1,8 @@
 package Perinci::To::PackageBase;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010;

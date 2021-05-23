@@ -1,6 +1,8 @@
 package Perinci::To::Doc;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

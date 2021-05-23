@@ -1,6 +1,8 @@
 package Perinci::Sub::To::FuncBase;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010;
@@ -214,7 +216,7 @@ sub gen_doc_section_result {
     if ($orig_result_naked) {
         $dres->{human_ret} = $dres->{human_res};
     } else {
-        $dres->{human_ret} = '[status, msg, payload, meta]';
+        $dres->{human_ret} = '[$status_code, $reason, $payload, \%result_meta]';
     }
 
     $dres->{res_summary}     = $riresmeta->langprop("summary");

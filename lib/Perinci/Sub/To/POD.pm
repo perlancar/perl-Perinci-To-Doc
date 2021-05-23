@@ -1,6 +1,8 @@
 package Perinci::Sub::To::POD;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
@@ -394,14 +396,14 @@ sub after_gen_doc {
     }
 
     $self->add_doc_lines($self->_md2pod(__(
-"Returns an enveloped result (an array).
+'Returns an enveloped result (an array).
 
-First element (status) is an integer containing HTTP status code
+First element ($status_code) is an integer containing HTTP status code
 (200 means OK, 4xx caller error, 5xx function error). Second element
-(msg) is a string containing error message, or 'OK' if status is
-200. Third element (payload) is optional, the actual result. Fourth
-element (meta) is called result metadata and is optional, a hash
-that contains extra information.")), "")
+($reason) is a string containing error message, or "OK" if status is
+200. Third element ($payload) is optional, the actual result. Fourth
+element (%result_meta) is called result metadata and is optional, a hash
+that contains extra information.')), "")
          unless $orig_result_naked;
 
     $self->add_doc_lines(__("Return value") . ': ' .

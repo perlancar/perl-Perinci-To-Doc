@@ -1,6 +1,8 @@
 package Perinci::To::Doc::Role::Section;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010;
